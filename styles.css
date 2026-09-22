@@ -167,6 +167,17 @@ a:hover { text-decoration-thickness: 2px; }
   font-size: 0.95rem;
 }
 
+/* ---------- home page ---------- */
+
+.profile-photo {
+  width: 9rem;
+  height: 9rem;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 0 1.5rem;
+}
+
 /* ---------- about page ---------- */
 
 .bio-list {
@@ -209,14 +220,4 @@ a:hover { text-decoration-thickness: 2px; }
 .site-footer a { color: var(--muted); }
 .site-footer a:hover { color: var(--accent); }
 
-/* ---------- dark mode (free, via OS setting) ---------- */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #e8e8e8;
-    --muted: #a3a3a3;
-    --rule: #333333;
-    --paper: #141414;
-    --accent: #e2a37c;
-  }
-}
+/* (no dark mode — the site stays white and minimal by design) */
