@@ -135,6 +135,11 @@ a:hover { text-decoration-thickness: 2px; }
 
 .archive-list .title a:hover { color: var(--accent); }
 
+.archive-list .desc {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+}
+
 .archive-list .meta {
   margin: 0.25rem 0 0;
 }
