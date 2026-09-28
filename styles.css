@@ -320,13 +320,17 @@ a:hover { text-decoration-thickness: 2px; }
   border-collapse: collapse;
   font-size: 0.88rem;
   margin: 0 0 1.5rem;
+  min-width: 36rem;
 }
+
+.table-scroll { overflow-x: auto; }
 
 .mw-table th,
 .mw-table td {
-  padding: 0.55rem 0.35rem;
+  padding: 0.55rem 0.5rem;
   border-bottom: 1px solid var(--rule);
-  text-align: center;
+  text-align: left;
+  vertical-align: top;
 }
 
 .mw-table thead th {
@@ -337,11 +341,37 @@ a:hover { text-decoration-thickness: 2px; }
   letter-spacing: 0.04em;
 }
 
-.mw-table th:first-child,
-.mw-table td:first-child { text-align: left; }
+.mw-table tr.right { background: rgba(26, 127, 55, 0.07); }
+.mw-table tr.wrong { background: rgba(192, 57, 43, 0.06); }
 
-.mw-table td.pick { font-weight: 700; }
-.mw-table td.ok { color: var(--accent); font-weight: 700; }
-.mw-table td.miss { color: var(--muted); }
+.mw-table td.game { font-weight: 600; white-space: nowrap; }
+.mw-table td.pred { white-space: nowrap; }
+.mw-table td.comments { color: var(--muted); font-size: 0.84rem; }
+.mw-table td.ok { color: #1a7f37; font-weight: 700; font-size: 1rem; }
+.mw-table td.miss { color: #c0392b; font-weight: 700; font-size: 1rem; }
+
+.draw-pill {
+  display: inline-block;
+  padding: 0.05rem 0.55rem;
+  border: 1px dashed var(--muted);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.lg {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 2px;
+  margin: 0 0.25rem 0 0.9rem;
+  vertical-align: baseline;
+}
+
+.legend .lg:first-child { margin-left: 0; }
+.lg-ok { background: #1a7f37; }
+.lg-miss { background: #c0392b; }
+.legend .draw-pill { margin-left: 0.9rem; }
 
 /* (no dark mode — the site stays white and minimal by design) */
