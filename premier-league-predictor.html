@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Premier League predictor — Nebo Iwenofu</title>
+  <meta name="description" content="A from-scratch model predicting win/draw/loss probabilities for every Premier League game each week, reviewed against results. By Nebo Iwenofu.">
+  <link rel="canonical" href="https://neboiwenofu.com/projects/premier-league-predictor.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Premier League predictor — Nebo Iwenofu">
+  <meta property="og:description" content="A from-scratch model predicting win/draw/loss probabilities for every Premier League game each week, reviewed against results.">
+  <meta property="og:url" content="https://neboiwenofu.com/projects/premier-league-predictor.html">
+  <meta property="og:image" content="https://neboiwenofu.com/profile.jpg">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-header">
+    <p class="site-name"><a href="../index.html">Nebo Iwenofu</a></p>
+    <nav class="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="../writing.html">Writing</a>
+      <a href="../reading.html">Reading</a>
+      <a href="../projects.html" aria-current="page">Projects</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h1>Premier League predictor</h1>
+      <div class="essay-meta">
+        A running project · Started September 2026
+        <br>
+        <span class="tag">Machine learning</span><span class="tag">Football</span>
+      </div>
+
+      <p>I'm building a model that predicts the outcome of every Premier League
+      game each week — win, draw, or loss, with a probability for each. I'm
+      building it by hand, from scratch, as a way to learn: no ML libraries
+      doing the modeling for me, just NumPy, SciPy, and the math.</p>
+
+      <p>The code is public:
+      <a href="https://github.com/learningEngineer24/premier-league-predictor">github.com/learningEngineer24/premier-league-predictor</a>.</p>
+
+      <h2>What this is</h2>
+      <p>Every week, the model outputs three probabilities for each of the ten
+      Premier League fixtures: home win, draw, away win. The goal is simple to
+      state and hard to do: beat the bookmakers' implied probabilities, week
+      after week, measured honestly on games the model has never seen.</p>
+      <p>Bookmaker odds are the benchmark, never an input — the model doesn't
+      get to peek at the answer key. Promoted teams stay in; every game gets a
+      prediction, no exceptions.</p>
+
+      <h2>How the model works</h2>
+      <p>The core is a <strong>Dixon–Coles model</strong>, the classic
+      statistical approach to football scores. Each team gets an attack rating
+      and a defense rating, there's a league-wide home advantage, and a small
+      correction for low-scoring games. From those ratings the model computes
+      the probability of every scoreline from 0–0 to 10–10, then adds them up
+      into home/draw/away probabilities.</p>
+      <p>The first version worked but had a flaw: with only a few games of
+      data, newly promoted teams got extreme ratings. After four losses,
+      Coventry's attack rating was so negative the model gave them a 0.04%
+      chance at Nottingham Forest. They won. That one game blew up the week's
+      score.</p>
+      <p>Version 2 fixes this two ways. First, <strong>shrinkage</strong>: a
+      gentle prior that pulls ratings toward average until a team has played
+      enough games to earn an extreme one — the same idea as not judging a
+      batsman by his first over. Second, <strong>time decay</strong>: recent
+      games count more than old ones, with a 180-day half-life. Both settings
+      were tuned on two full past seasons the model was never evaluated
+      on.</p>
+      <p>Everything is validated <strong>walk-forward</strong>: to predict a
+      game, the model may only use games played before it. No leakage, no
+      peeking. An Elo ratings system runs alongside as a standing
+      challenger.</p>
+
+      <h2>How I'll use it</h2>
+      <p>Each week follows the same loop:</p>
+      <ol>
+        <li><strong>Before the matchweek</strong> — publish the model's
+        win/draw/loss probabilities for all ten games.</li>
+        <li><strong>After the matchweek</strong> — compare predictions against
+        results, write up what the model got right and wrong, and add it as a
+        new section below.</li>
+        <li><strong>Iterate</strong> — feed what I learn back into the model.
+        Current ideas: better draw calibration, combining the model with Elo,
+        and expected-goals features.</li>
+      </ol>
+
+      <h2>Matchweek 5 — September 18–20, 2026</h2>
+      <p>The first reviewed week. Ten games, and the model's first outing in
+      its current form.</p>
+
+      <div class="stat-grid">
+        <div class="stat"><span class="stat-num">4/10</span><span class="stat-label">model's correct picks</span></div>
+        <div class="stat"><span class="stat-num">1.144</span><span class="stat-label">model log loss <span class="muted-inline">(lower is better)</span></span></div>
+        <div class="stat"><span class="stat-num">4/10</span><span class="stat-label">bookmakers: 4/10 · 1.080</span></div>
+        <div class="stat"><span class="stat-num">5/10</span><span class="stat-label">Elo challenger: 5/10 · 1.066</span></div>
+      </div>
+
+      <p class="legend">
+        <span class="sw sw-h"></span> home win
+        <span class="sw sw-d"></span> draw
+        <span class="sw sw-a"></span> away win
+        <span class="muted-inline">· ✓ marks what actually happened</span>
+      </p>
+
+      <section class="mw-match">
+        <h3>Brentford 3–0 Chelsea <span class="mw-date">Sep 18</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Brentford win 47 percent, draw 26 percent, Chelsea win 27 percent. Actual result: Brentford win.">
+          <span class="seg seg-h" style="width:47%">47% ✓</span><span class="seg seg-d" style="width:26%">26%</span><span class="seg seg-a" style="width:27%">27%</span>
+        </div>
+        <p class="mw-verdict right"><strong>Right.</strong> The model's strongest home lean of the week — and the market slightly favored Chelsea.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Tottenham 2–3 Aston Villa <span class="mw-date">Sep 19</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Tottenham win 34 percent, draw 31 percent, Aston Villa win 35 percent. Actual result: Aston Villa win.">
+          <span class="seg seg-h" style="width:34%">34%</span><span class="seg seg-d" style="width:31%">31%</span><span class="seg seg-a" style="width:35%">35% ✓</span>
+        </div>
+        <p class="mw-verdict right"><strong>Right.</strong> The model's only away pick of the week (35%), and it disagreed with the market, which had Spurs at 48%.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Brighton 3–0 Arsenal <span class="mw-date">Sep 19</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Brighton win 25 percent, draw 30 percent, Arsenal win 45 percent. Actual result: Brighton win.">
+          <span class="seg seg-h" style="width:25%">25% ✓</span><span class="seg seg-d" style="width:30%">30%</span><span class="seg seg-a" style="width:45%">45%</span>
+        </div>
+        <p class="mw-verdict wrong"><strong>Wrong.</strong> Model and market both liked Arsenal (45%); Brighton won 3–0.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Everton 1–0 Ipswich <span class="mw-date">Sep 19</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Everton win 60 percent, draw 24 percent, Ipswich win 16 percent. Actual result: Everton win.">
+          <span class="seg seg-h" style="width:60%">60% ✓</span><span class="seg seg-d" style="width:24%">24%</span><span class="seg seg-a" style="width:16%">16%</span>
+        </div>
+        <p class="mw-verdict right"><strong>Right.</strong> The comfortable one — everyone agreed on Everton.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Newcastle 2–1 Hull <span class="mw-date">Sep 19</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Newcastle win 34 percent, draw 34 percent, Hull win 32 percent. Actual result: Newcastle win.">
+          <span class="seg seg-h" style="width:34%">34% ✓</span><span class="seg seg-d" style="width:34%">34%</span><span class="seg seg-a" style="width:32%">32%</span>
+        </div>
+        <p class="mw-verdict wrong"><strong>Wrong pick, honest uncertainty.</strong> The model read this as a near coin flip (34/34/32) and landed on the draw. The flat bar is the model saying "I don't know" — which was the right thing to say.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Nott'm Forest 0–1 Coventry <span class="mw-date">Sep 19</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Nottingham Forest win 70 percent, draw 23 percent, Coventry win 7 percent. Actual result: Coventry win.">
+          <span class="seg seg-h" style="width:70%">70%</span><span class="seg seg-d" style="width:23%">23%</span><span class="seg seg-a" style="width:7%">7% ✓</span>
+        </div>
+        <p class="mw-verdict wrong"><strong>Wrong — but a much better wrong.</strong> The old model gave Coventry 0.04%, a near-impossibility that wrecked the week's score. Shrinkage raised it to 7%: still a long shot, but an honest one. The pick was wrong; the calibration was fixed.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Bournemouth 0–1 Liverpool <span class="mw-date">Sep 20</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Bournemouth win 40 percent, draw 28 percent, Liverpool win 32 percent. Actual result: Liverpool win.">
+          <span class="seg seg-h" style="width:40%">40%</span><span class="seg seg-d" style="width:28%">28%</span><span class="seg seg-a" style="width:32%">32% ✓</span>
+        </div>
+        <p class="mw-verdict wrong"><strong>Wrong.</strong> The model overrated Bournemouth's strong start (40%); the market favored Liverpool and was right.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Leeds 0–0 Crystal Palace <span class="mw-date">Sep 20</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Leeds win 55 percent, draw 27 percent, Crystal Palace win 18 percent. Actual result: draw.">
+          <span class="seg seg-h" style="width:55%">55%</span><span class="seg seg-d" style="width:27%">27% ✓</span><span class="seg seg-a" style="width:18%">18%</span>
+        </div>
+        <p class="mw-verdict wrong"><strong>Wrong.</strong> Model, Elo, and market all liked Leeds; nobody saw the 0–0 coming. Draws remain the model's blind spot.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Man City 5–3 Sunderland <span class="mw-date">Sep 20</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Manchester City win 68 percent, draw 23 percent, Sunderland win 9 percent. Actual result: Manchester City win.">
+          <span class="seg seg-h" style="width:68%">68% ✓</span><span class="seg seg-d" style="width:23%">23%</span><span class="seg seg-a" style="width:9%">9%</span>
+        </div>
+        <p class="mw-verdict right"><strong>Right.</strong> The bankers of the week — City at home.</p>
+      </section>
+
+      <section class="mw-match">
+        <h3>Fulham 1–1 Man United <span class="mw-date">Sep 20</span></h3>
+        <div class="probbar" role="img" aria-label="Model probabilities: Fulham win 33 percent, draw 29 percent, Manchester United win 38 percent. Actual result: draw.">
+          <span class="seg seg-h" style="width:33%">33%</span><span class="seg seg-d" style="width:29%">29% ✓</span><span class="seg seg-a" style="width:38%">38%</span>
+        </div>
+        <p class="mw-verdict wrong"><strong>Wrong.</strong> The model leaned United (38%) in a genuinely open game; the draw (29%) was its second choice.</p>
+      </section>
+
+      <h3>What I take from this week</h3>
+      <p>Four out of ten — level with the bookmakers on accuracy, a touch
+      behind on log loss (1.144 vs 1.080), and behind the Elo challenger,
+      which had the best week of the three at 5 of 10. An honest, average
+      week.</p>
+      <p>The encouraging part: the two games where the model disagreed with the
+      market, it was right both times — Brentford over Chelsea and Villa at
+      Spurs. The worrying part is familiar: draws. The model made a draw its
+      top pick exactly once all week, and two draws happened. Fixing draw
+      calibration is the top modeling priority.</p>
+      <p>And the Forest–Coventry game did its job as a stress test. The old
+      model's 0.04% was a failure of humility; 7% is a number a reasonable
+      person could hold. Shrinkage works as advertised.</p>
+
+      <h2>Code</h2>
+      <p>Everything — model, validation, and tuning — is on GitHub:
+      <a href="https://github.com/learningEngineer24/premier-league-predictor">github.com/learningEngineer24/premier-league-predictor</a>.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <a href="mailto:neboiwenofu@gmail.com">neboiwenofu@gmail.com</a>
+      · Built by hand, no framework.
+    </p>
+  </footer>
+
+</div>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4ad785e448f9467da46e966065a11e30"}'></script><!-- End Cloudflare Web Analytics --> </body>
+</html>

@@ -220,4 +220,101 @@ a:hover { text-decoration-thickness: 2px; }
 .site-footer a { color: var(--muted); }
 .site-footer a:hover { color: var(--accent); }
 
+/* ---------- project pages: prediction visualizations ---------- */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 0 0 1.5rem;
+}
+
+@media (max-width: 40rem) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat {
+  background: var(--paper);
+  padding: 0.9rem 1rem;
+}
+
+.stat-num {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
+
+.muted-inline { color: var(--muted); font-size: 0.85rem; }
+
+.legend { font-size: 0.9rem; color: var(--muted); }
+
+.sw {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 2px;
+  margin: 0 0.25rem 0 0.9rem;
+  vertical-align: baseline;
+}
+
+.sw:first-child { margin-left: 0; }
+.sw-h { background: #1a1a1a; }
+.sw-d { background: #b9b9b9; }
+.sw-a { background: #9a3412; }
+
+.mw-match {
+  border-top: 1px solid var(--rule);
+  padding: 1.25rem 0 0.5rem;
+  margin: 0 0 0.75rem;
+}
+
+.mw-match h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+}
+
+.mw-date {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.probbar {
+  display: flex;
+  height: 1.9rem;
+  border-radius: 3px;
+  overflow: hidden;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.probbar .seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 2.2rem;
+}
+
+.seg-h { background: #1a1a1a; }
+.seg-d { background: #b9b9b9; }
+.seg-a { background: #9a3412; }
+
+.mw-verdict { font-size: 0.95rem; margin: 0.6rem 0 0; }
+.mw-verdict.right strong { color: #1a1a1a; }
+.mw-verdict.wrong strong { color: var(--muted); }
+
 /* (no dark mode — the site stays white and minimal by design) */
