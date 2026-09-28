@@ -272,49 +272,76 @@ a:hover { text-decoration-thickness: 2px; }
 .sw-d { background: #b9b9b9; }
 .sw-a { background: #9a3412; }
 
-.mw-match {
+/* ---------- project pages: matchweek reviews ---------- */
+
+.mw-details {
   border-top: 1px solid var(--rule);
-  padding: 1.25rem 0 0.5rem;
-  margin: 0 0 0.75rem;
+  margin-top: 2.5rem;
 }
 
-.mw-match h3 {
-  margin: 0 0 0.6rem;
-  font-size: 1.05rem;
+.mw-details > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
 }
 
-.mw-date {
+.mw-details > summary::-webkit-details-marker { display: none; }
+
+.mw-details > summary h2 { margin: 0; }
+
+.mw-details > summary h2 .mw-range {
   color: var(--muted);
   font-weight: 400;
-  font-size: 0.9rem;
-  margin-left: 0.5rem;
+  font-size: 1rem;
 }
 
-.probbar {
-  display: flex;
-  height: 1.9rem;
-  border-radius: 3px;
-  overflow: hidden;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #fff;
-}
-
-.probbar .seg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.mw-score {
+  color: var(--muted);
+  font-size: 0.95rem;
   white-space: nowrap;
-  overflow: hidden;
-  min-width: 2.2rem;
 }
 
-.seg-h { background: #1a1a1a; }
-.seg-d { background: #b9b9b9; }
-.seg-a { background: #9a3412; }
+.mw-score::before {
+  content: "+ ";
+  font-weight: 700;
+  color: var(--accent);
+}
 
-.mw-verdict { font-size: 0.95rem; margin: 0.6rem 0 0; }
-.mw-verdict.right strong { color: #1a1a1a; }
-.mw-verdict.wrong strong { color: var(--muted); }
+.mw-details[open] > summary .mw-score::before { content: "– "; }
+
+.mw-body { padding-bottom: 1rem; }
+
+.mw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 0 0 1.5rem;
+}
+
+.mw-table th,
+.mw-table td {
+  padding: 0.55rem 0.35rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+}
+
+.mw-table thead th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mw-table th:first-child,
+.mw-table td:first-child { text-align: left; }
+
+.mw-table td.pick { font-weight: 700; }
+.mw-table td.ok { color: var(--accent); font-weight: 700; }
+.mw-table td.miss { color: var(--muted); }
 
 /* (no dark mode — the site stays white and minimal by design) */
