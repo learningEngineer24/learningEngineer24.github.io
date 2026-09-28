@@ -103,45 +103,88 @@
             <div class="stat"><span class="stat-num">5/10</span><span class="stat-label">Elo challenger: 5/10 · 1.066</span></div>
           </div>
 
-          <p class="legend">Bold = the model's pick · ✓ = what actually happened.</p>
+          <p class="legend"><span class="lg lg-ok"></span> model got it right <span class="lg lg-miss"></span> model got it wrong <span class="draw-pill">Draw</span> the game was a draw</p>
 
+          <div class="table-scroll">
           <table class="mw-table">
             <thead>
-              <tr><th scope="col">Match</th><th scope="col">Home</th><th scope="col">Draw</th><th scope="col">Away</th><th scope="col">Call</th></tr>
+              <tr><th scope="col">Game</th><th scope="col">Predicted</th><th scope="col">Actual</th><th scope="col">Comments</th><th scope="col"></th></tr>
             </thead>
             <tbody>
-      <tr>
-        <td>Brentford 3–0 Chelsea</td><td class="pick">47% ✓</td><td>26%</td><td>27%</td><td class="ok">✓</td>
-      </tr>
-      <tr>
-        <td>Tottenham 2–3 Aston Villa</td><td>34%</td><td>31%</td><td class="pick">35% ✓</td><td class="ok">✓</td>
-      </tr>
-      <tr>
-        <td>Brighton 3–0 Arsenal</td><td>25% ✓</td><td>30%</td><td class="pick">45%</td><td class="miss">✗</td>
-      </tr>
-      <tr>
-        <td>Everton 1–0 Ipswich</td><td class="pick">60% ✓</td><td>24%</td><td>16%</td><td class="ok">✓</td>
-      </tr>
-      <tr>
-        <td>Newcastle 2–1 Hull</td><td>34% ✓</td><td class="pick">34%</td><td>32%</td><td class="miss">✗</td>
-      </tr>
-      <tr>
-        <td>Nott'm Forest 0–1 Coventry</td><td class="pick">70%</td><td>23%</td><td>7% ✓</td><td class="miss">✗</td>
-      </tr>
-      <tr>
-        <td>Bournemouth 0–1 Liverpool</td><td class="pick">40%</td><td>28%</td><td>32% ✓</td><td class="miss">✗</td>
-      </tr>
-      <tr>
-        <td>Leeds 0–0 Crystal Palace</td><td class="pick">55%</td><td>27% ✓</td><td>18%</td><td class="miss">✗</td>
-      </tr>
-      <tr>
-        <td>Man City 5–3 Sunderland</td><td class="pick">68% ✓</td><td>23%</td><td>9%</td><td class="ok">✓</td>
-      </tr>
-      <tr>
-        <td>Fulham 1–1 Man United</td><td>33%</td><td>29% ✓</td><td class="pick">38%</td><td class="miss">✗</td>
-      </tr>
+              <tr class="right">
+                <td class="game">Brentford 3–0 Chelsea</td>
+                <td class="pred">Home win · 47%</td>
+                <td>Home win</td>
+                <td class="comments">Strongest home lean of the week; the market slightly favored Chelsea.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Tottenham 2–3 Aston Villa</td>
+                <td class="pred">Away win · 35%</td>
+                <td>Away win</td>
+                <td class="comments">The model's only away pick of the week — and it disagreed with the market, which had Spurs at 48%.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Brighton 3–0 Arsenal</td>
+                <td class="pred">Away win · 45%</td>
+                <td>Home win</td>
+                <td class="comments">Model and market both liked Arsenal.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Everton 1–0 Ipswich</td>
+                <td class="pred">Home win · 60%</td>
+                <td>Home win</td>
+                <td class="comments">The comfortable one — everyone agreed on Everton.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Newcastle 2–1 Hull</td>
+                <td class="pred">Draw · 34%</td>
+                <td>Home win</td>
+                <td class="comments">Model read it as a coin flip (34/34/32).</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Nott'm Forest 0–1 Coventry</td>
+                <td class="pred">Home win · 70%</td>
+                <td>Away win</td>
+                <td class="comments">Wrong pick, better calibration: v1 gave Coventry 0.04%, v2 gave 7%.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Bournemouth 0–1 Liverpool</td>
+                <td class="pred">Home win · 40%</td>
+                <td>Away win</td>
+                <td class="comments">Model overrated Bournemouth's strong start; the market favored Liverpool.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Leeds 0–0 Crystal Palace</td>
+                <td class="pred">Home win · 55%</td>
+                <td><span class="draw-pill">Draw</span></td>
+                <td class="comments">Nobody saw the 0–0 coming; draws remain the blind spot.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Man City 5–3 Sunderland</td>
+                <td class="pred">Home win · 68%</td>
+                <td>Home win</td>
+                <td class="comments">The bankers of the week — City at home.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Fulham 1–1 Man United</td>
+                <td class="pred">Away win · 38%</td>
+                <td><span class="draw-pill">Draw</span></td>
+                <td class="comments">Model leaned United (38%) in an open game; draw was its second choice (29%).</td>
+                <td class="miss">✗</td>
+              </tr>
             </tbody>
           </table>
+          </div>
+
 
           <h3>What I take from this week</h3>
           <p>Four out of ten — level with the bookmakers on accuracy, a touch behind on log loss (1.144 vs 1.080), and behind the Elo challenger, which had the best week of the three at 5 of 10. An honest, average week.</p>
