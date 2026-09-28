@@ -310,13 +310,19 @@ a:hover { text-decoration-thickness: 2px; }
   white-space: nowrap;
 }
 
-.mw-score::before {
-  content: "+ ";
-  font-weight: 700;
-  color: var(--accent);
+.mw-details > summary .mw-score,
+.mw-details > summary .mw-summary {
+  margin-left: auto;
 }
 
-.mw-details[open] > summary .mw-score::before { content: "– "; }
+.mw-details > summary::after {
+  content: "▾";
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.mw-details[open] > summary::after { transform: rotate(180deg); }
 
 .mw-body { padding-bottom: 1rem; }
 
