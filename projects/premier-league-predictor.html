@@ -84,8 +84,8 @@
         results, write up what the model got right and wrong, and add it as a
         new section below.</li>
         <li><strong>Iterate</strong> — feed what I learn back into the model.
-        Current ideas: better draw calibration, combining the model with Elo,
-        and expected-goals features.</li>
+        Current ideas: combining the model with Elo, expected-goals features,
+        and — once a full season of results exists — a properly powered comparison against the bookmakers.</li>
       </ol>
 
       <details class="mw-details">
@@ -243,7 +243,7 @@
                 <td class="game">Leeds 0–0 Crystal Palace</td>
                 <td class="pred">Home win · 55%</td>
                 <td><span class="draw-pill">Draw</span></td>
-                <td class="comments">Nobody saw the 0–0 coming; draws remain the blind spot.</td>
+                <td class="comments">Nobody saw the 0–0 coming; draws are the hardest outcome for every model.</td>
                 <td class="miss">✗</td>
               </tr>
               <tr class="right">
@@ -267,8 +267,8 @@
 
           <h3>What I take from this week</h3>
           <p>Four out of ten — level with the bookmakers on accuracy, a touch behind on log loss (1.144 vs 1.080), and behind the Elo challenger, which had the best week of the three at 5 of 10. An honest, average week.</p>
-          <p>The encouraging part: the two games where the model disagreed with the market, it was right both times — Brentford over Chelsea and Villa at Spurs. The worrying part is familiar: draws. The model made a draw its top pick exactly once all week, and two draws happened. Fixing draw calibration is the top modeling priority.</p>
-          <p>And the Forest–Coventry game did its job as a stress test. The old model's 0.04% was a failure of humility; 7% is a number a reasonable person could hold. Shrinkage works as advertised.</p>
+          <p>A necessary caveat on all of the above, added after a review of this project: fifty games say almost nothing. The model's log-loss edge over the bookmakers across the five evaluated weeks is −0.015 per game with a standard error of 0.045 — statistically indistinguishable from zero. None of the gaps between the models clear that bar either. The honest reading is that the model is competitive with the bookmakers, and the ranking is unresolved until a full season of games accumulates.</p>
+          <p>The encouraging part: the two games where the model disagreed with the market, it was right both times — Brentford over Chelsea and Villa at Spurs. The draw story also got smaller on inspection: the evaluation window was unusually draw-heavy (32% vs ~26% long-run), and on 760 earlier games the model predicts draws at 25.1% against 25.9% actual — well calibrated. Draws are the hardest outcome for every model, but there's no structural blind spot to fix.</p>          <p>And the Forest–Coventry game did its job as a stress test. The old model's 0.04% was a failure of humility; 7% is a number a reasonable person could hold. Shrinkage works as advertised — though it's worth saying plainly that this one game accounts for nearly all of the measured v1-to-v2 improvement. The fix is principled; the victory lap is premature.</p>
         </div>
       </details>
 
