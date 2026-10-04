@@ -386,3 +386,21 @@ a:hover { text-decoration-thickness: 2px; }
 .legend .draw-pill { margin-left: 0.9rem; }
 
 /* (no dark mode — the site stays white and minimal by design) */
+
+/* ---------- figures (charts on project pages) ---------- */
+
+figure {
+  margin: 2rem 0;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+
+figcaption {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
