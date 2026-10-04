@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alameda County Property Tax Imbalance Assessment — Nebo Iwenofu</title>
+  <meta name="description" content="Measuring how evenly the property tax burden falls across Alameda County, California — from the county's own open data. Data sources, methods, and honest limitations. By Nebo Iwenofu.">
+  <link rel="canonical" href="https://neboiwenofu.com/projects/on-property-taxes.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Alameda County Property Tax Imbalance Assessment — Nebo Iwenofu">
+  <meta property="og:description" content="Measuring how evenly the property tax burden falls across Alameda County, California — from the county's own open data.">
+  <meta property="og:url" content="https://neboiwenofu.com/projects/on-property-taxes.html">
+  <meta property="og:image" content="https://neboiwenofu.com/profile.jpg">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-header">
+    <p class="site-name"><a href="../index.html">Nebo Iwenofu</a></p>
+    <nav class="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="../projects.html" aria-current="page">Projects</a>
+      <a href="../writing.html">Writing</a>
+      <a href="../reading.html">Reading</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h1>Alameda County Property Tax Imbalance Assessment</h1>
+      <div class="essay-meta">
+        A finished analysis · October 2026
+        <br>
+        <span class="tag">Data analysis</span><span class="tag">Housing</span>
+      </div>
+
+      <p>How evenly does the property tax burden fall across homeowners in
+      Alameda County, California? Under Proposition 13, a home's assessed
+      value is its purchase price plus at most 2% annual growth — so tax bills
+      depend heavily on <em>when</em> a home was bought. This project measures
+      that imbalance from the county's own open data: 489,628 parcels, 1,416
+      tax rate areas, 23,633 priced sales from 2023–2025, seven years of annual
+      tax rolls, and ZIP-level price histories.</p>
+
+      <p>What it finds: Alameda County single-family homes held 31+ years are
+      assessed at a median $238,000 versus $822,000 for homes bought in the
+      last two years (3.5x) — the gradient is steepest in Oakland (4.2x).
+      Effective tax rates run from 0.20% of market value for
+      pre-1990 buyers to 0.94% for 2024 buyers (4.7x on ZIP-median proxies;
+      plausibly 3–4x after accounting for within-ZIP value differences).
+      2023 buyers sit a median 3.5% above 2024–25 sale prices against their
+      Prop 13 trajectory, with the gap concentrated in hillside ZIPs where
+      prices fell furthest. And the county's Prop 8 decline-in-value relief,
+      verified parcel by parcel in the tax rolls, has reached 22% of 2023
+      buyers — most of it years late.</p>
+
+      <p>The <a href="https://github.com/learningEngineer24/on-property-taxes">code and data pipeline</a> are public.
+      The full argument — what it means and what the county should do about it —
+      is coming as an essay on the <a href="../writing.html">Writing</a> page.
+      This page is the technical companion: the data, how I got it, what I did
+      with it, and where it falls short.</p>
+
+      <h2>The question</h2>
+      <p>Prop 13 ties a home's assessed value to its purchase price plus at most
+      2% annual growth. So two identical houses on the same street can carry
+      wildly different tax bills depending on <em>when</em> they were bought —
+      and buyers who purchased at the 2021–22 price peak may now be assessed
+      above what their homes are actually worth. I measured both effects from
+      public records.</p>
+
+      <h2>Data sources</h2>
+      <p>Everything below is public. The county publishes far more than most
+      people realize:</p>
+      <ul>
+        <li><strong>Parcel bulk feed</strong> — 489,628 parcels: assessed values,
+        last recorded document, property type, tax rate area. Downloaded October
+        2026 via the county's ArcGIS FeatureServer.</li>
+        <li><strong>Property tax rates, 2024 + 2025</strong> — the ad-valorem rate
+        for each of 1,416 tax rate areas (two annual layers; the 2025 layer is
+        truncated, so I filled gaps from 2024).</li>
+        <li><strong>Ownership transfer list, 2023–2025</strong> — recorded
+        transfers with sale prices backed out from the documentary transfer tax.
+        187,908 raw rows; 23,633 usable priced sales after dedup.</li>
+        <li><strong>Annual secured tax rolls, 2019–2026</strong> — per-parcel
+        assessed values, one layer per tax year. Seven layers, ~3.3M rows total.
+        This is what made verification possible.</li>
+        <li><strong>Zillow ZHVI</strong> — monthly ZIP-level home values
+        (smoothed, seasonally adjusted), used to date the 2022 price peak.</li>
+        <li><strong>FRED 30-year mortgage rates</strong> — the rate-shock
+        evidence: 2.96% average in 2021, 6.81% in 2023.</li>
+      </ul>
+
+      <h2>How I got the data</h2>
+      <p>Plain Python and <code>requests</code>, paginating the ArcGIS REST API
+      with <code>resultOffset</code>. Every download script checkpoints to disk,
+      so a dropped connection resumes instead of restarting — the seven tax-roll
+      layers took a few hours. Three gotchas worth knowing if you reuse this
+      data:</p>
+      <ol>
+        <li><strong>The 2025 tax-rate layer is silently truncated at exactly
+        10,000 rows.</strong> 74 tax rate areas are missing; I filled them from
+        the 2024 layer (which returns all 10,311 rows).</li>
+        <li><strong>The tax-rate join key needs normalizing.</strong> Parcels
+        store the rate-area secondary as a zero-padded string; the rate layers
+        use integers. A naive join misses 94% of parcels.</li>
+        <li><strong>The transfer list is mostly not sales.</strong> 62% of rows
+        have blank transfer-tax values (exempt or non-arm's-length transfers)
+        and 65% are duplicate transferor/transferee records. After dedup and
+        priced-sale filtering: 23,633 sales, 99.7% joining to the parcel
+        file.</li>
+      </ol>
+
+      <h2>What I found</h2>
+
+      <h3>The tenure gradient</h3>
+      <p>Among Alameda County single-family homes, the median assessed value
+      for homes held 31+ years is $238,000. For homes bought in the last two
+      years: $822,000. Same county, same property type — a 3.5x gap, driven
+      by the 2%-per-year cap compounding over decades. (In Oakland,
+      the gradient is steeper: 4.2x.) Two caveats cut in opposite directions:
+      longtime owners may own systematically smaller homes (which would shrink
+      the gap), while refinance-recorded documents in recent buckets carry old
+      low assessments (which biases the 3.5x <em>downward</em>). The
+      effective-rate analysis below, which normalizes by market value, finds
+      an even steeper gradient — so size differences aren't driving this.</p>
+
+      <figure>
+        <img src="../images/on-property-taxes-effective-rates.png" alt="Bar chart: median effective property tax rate by purchase cohort, from 0.20% for pre-1990 buyers rising to 0.94% for 2024 buyers.">
+        <figcaption>Median effective tax rate (tax paid ÷ market value) by
+        purchase cohort, Alameda County single-family homes. Market value is
+        proxied by ZIP medians; if longtime owners' homes are worth ~20% less
+        than their ZIP median, the true gradient is closer to 3–4x than 4.7x —
+        still a multiple, not a margin. (2026 omitted: partial year.)</figcaption>
+      </figure>
+
+      <h3>Peak buyers are over-assessed — and the rolls prove Prop 8 works</h3>
+      <p>Take 5,113 homes bought in 2023 — true purchase prices from the transfer
+      records — and compare each home's assessed value against its Prop 13
+      trajectory. One subtlety the county's own rolls revealed: the 2% inflation
+      factor is <em>not</em> applied at the first lien date for everyone.
+      Buyers who closed January–June enrolled at ×1.02; July–December buyers
+      enrolled at ×1.00 (the assessment-roll close, around June 30, decides).
+      With buyer-specific trajectories, the group's factored values sit
+      <strong>+$42,000 (+3.5%) above 2024–25 sale prices</strong> (95%
+      bootstrap CI: +$7k to +$48k — sampling noise only; the true uncertainty
+      is wider).</p>
+      <p>Tracing those buyers parcel by parcel through seven years of tax rolls:
+      <strong>22% have received a Prop 8 decline-in-value reduction</strong> —
+      a strictly post-purchase year-over-year cut in assessed value, median cut
+      8.6%. The timing is the story: barely 2% had relief through the January
+      2025 roll; a ~20% wave arrived in the 2026 cycle. The safety valve exists
+      and fires. It is years late.</p>
+
+      <figure>
+        <img src="../images/on-property-taxes-trajectories.png" alt="Line chart: 2023 buyers' median assessed values track their respective Prop 13 trajectories almost exactly, split by first-half and second-half buyers; an example 2021-buyer parcel shows a sharp Prop 8 cut in 2024.">
+        <figcaption>Assessed value ÷ purchase price for 2023 buyers (medians
+        split by closing half, interquartile range pooled) against the Prop 13
+        trajectories <em>as the county actually applies them</em> — H1 buyers
+        get the 2% factor at the first lien, H2 buyers don't. Both halves sit
+        almost exactly on their lines: the machinery works as designed. The
+        red example parcel (2021 buyer) shows the textbook exception: 2%
+        growth, then a Prop 8 cut in 2024.</figcaption>
+      </figure>
+
+      <h3>The 2022 peak, dated</h3>
+      <p>Zillow's ZHVI series shows 41 of 46 Alameda County ZIPs peaked in the
+      spring of 2022, with a median drawdown of 13% since. But the recovery
+      diverged: Oakland-hills ZIPs fell 17–23% and stayed down, while Fremont's
+      94539 and 94555 barely fell at all. That divergence drives the
+      over-assessment map — mechanically so: a ZIP's gap is approximately its
+      factored growth (~4–5% for the typical buyer) minus its actual price
+      change, so the ranking of gaps follows the ranking of price drops by
+      construction. The genuine empirical content is the divergence itself,
+      corroborated independently by ZHVI.</p>
+
+      <figure>
+        <img src="../images/on-property-taxes-zhvi-peak.png" alt="Line chart: indexed home values for six Alameda County ZIPs rising together into a spring 2022 peak, then diverging — Fremont ZIPs recovering while Oakland-hills ZIPs stay down.">
+        <figcaption>Home values peaked together in spring 2022, then diverged by
+        ZIP (ZHVI, indexed to Jan 2020 = 100). The divergence — not the price
+        level — explains the over-assessment map.</figcaption>
+      </figure>
+
+      <figure>
+        <img src="../images/on-property-taxes-zip-gap.png" alt="Scatter plot: ZIPs with larger home-value declines since June 2022 show larger over-assessment gaps for 2023 buyers.">
+        <figcaption>Each dot is a ZIP: horizontal axis is home-value change since
+        June 2022, vertical axis is the 2023-buyer over-assessment gap.
+        Per-ZIP samples are small (as few as 30 buyers), so treat the ranking
+        as approximate — but the slope is clear.</figcaption>
+      </figure>
+
+      <h2>Why not the gold standard</h2>
+      <p>The textbook design is a repeat-sales study: same house, purchase price
+      vs. resale price. Three problems blocked it:</p>
+      <ol>
+        <li><strong>No pre-2023 bulk sale history.</strong> The parcel feed
+        carries only the latest recorded document, not a sale history. (The
+        2023–2025 transfer list plus the annual rolls back to 2019 enabled the
+        paired 2023 test above — the closest feasible design — but not a full
+        pre-2023 history.)</li>
+        <li><strong>The mechanical comparison trap.</strong> Comparing a sale
+        price against the reassessment that the sale itself triggered tells you
+        nothing under Prop 13; the informative benchmark is the prior 2%
+        trajectory.</li>
+        <li><strong>Selection in quick resales.</strong> Homes bought in 2021–22
+        and resold by 2024–25 are a selected subset, not a random sample of the
+        cohort.</li>
+      </ol>
+      <p>I also caught and fixed a real contamination mid-project: the first
+      cohort design used latest-document dates as sale proxies, but the 2021
+      refinance wave meant the "2021–22 buyer" benchmark was mostly refinances,
+      not purchases — a median $822k benchmark against a true $1.22M. Those
+      numbers were struck and the analysis rebuilt on transfer-record prices.
+      The superseded scripts stay in the repo, labeled, for transparency.</p>
+
+      <h2>Limitations</h2>
+      <ul>
+        <li>Market values are ZIP/property-type medians, not parcel-level comps —
+        the county bulk data has no interior square footage, bedrooms, or
+        bathrooms. Cohort medians are the robust unit.</li>
+        <li>The cross-section gap compares <em>different homes</em> (2023 buyers
+        vs. 2024–25 sellers). Composition shifts between the seller pools flow
+        into the gap; the reported confidence interval covers sampling noise
+        only.</li>
+        <li>2025 transfer data is a partial year.</li>
+        <li>Latest-document year is not pure ownership tenure (refinances
+        pollute it).</li>
+        <li>Transfer-tax-implied prices check out against assessed values
+        uniformly across cities (median ratio 0.993–1.000), so no city-level
+        transfer-tax distortion.</li>
+        <li>No demographics join — deliberately out of scope. This is a
+        Prop-13-mechanics story, not a demographic-equity story.</li>
+      </ul>
+
+      <h2>Code</h2>
+      <p>Everything — downloads, analysis, charts — is on
+      <a href="https://github.com/learningEngineer24/on-property-taxes">GitHub</a>.
+      Bulk data is excluded from the repo (hundreds of MB); the README documents
+      how to reproduce it from public sources.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <a href="mailto:neboiwenofu@gmail.com">neboiwenofu@gmail.com</a>
+      · Built by hand, no framework.
+    </p>
+  </footer>
+
+</div>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4ad785e448f9467da46e966065a11e30"}'></script><!-- End Cloudflare Web Analytics --> </body>
+</html>
