@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Engineering in the Agent Era — Nebo Iwenofu</title>
+  <meta name="description" content="General models get smarter; enterprise value moves to the people who ground them. A three-layer framework — foundation, meaning, evaluation — for making enterprise data legible and verifiable to machines.">
+  <link rel="canonical" href="https://neboiwenofu.com/writings/data-engineering-agent-era.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Data Engineering in the Agent Era — Nebo Iwenofu">
+  <meta property="og:description" content="General models get smarter; enterprise value moves to the people who ground them. A three-layer framework — foundation, meaning, evaluation — for making enterprise data legible and verifiable to machines.">
+  <meta property="og:url" content="https://neboiwenofu.com/writings/data-engineering-agent-era.html">
+  <meta property="og:image" content="https://neboiwenofu.com/profile.jpg">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .diagram svg { width: 100%; height: auto; display: block; }
+    .diagram { border: 1px solid var(--rule); padding: 1.25rem 1rem 0.5rem; background: #fbfbfa; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-header">
+    <p class="site-name"><a href="../index.html">Nebo Iwenofu</a></p>
+    <nav class="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../writing.html" aria-current="page">Writing</a>
+      <a href="../reading.html">Reading</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h1>Data Engineering in the Agent Era</h1>
+      <p class="meta">October 2026</p>
+
+      <p><strong>TL;DR:</strong> Large language models keep getting more capable,
+      but a model that knows everything public still does not know your business.
+      Every enterprise runs on proprietary knowledge, definitions, metrics, and
+      judgments that exist in no training set. The people closest to that data,
+      analytics and data engineering professionals, have a distinct job: turning
+      that knowledge into structured, versioned context that models can use,
+      and verifying that the answers are correct. It comes in three layers:
+      build the data foundation, encode the meaning, and evaluate the
+      behavior.</p>
+
+      <h2>Why this matters now</h2>
+      <p>Somewhere in your company, an agent is already answering questions
+      about your business. A salesperson asks it which accounts are at risk.
+      A finance analyst asks it for last quarter's margin by segment. It may
+      already be answering customers directly.</p>
+      <p>The failure mode that deserves attention is not a broken dashboard.
+      It is a fluent, confident, well-formatted answer that is wrong, and no
+      one notices, because the model sounded certain and the number was
+      plausible. The definition of "active customer" changed last quarter and
+      the agent never received the update. The revenue figure it cited uses
+      the old product hierarchy. The board deck goes out, and the error is
+      discovered after the fact, by someone outside the company.</p>
+      <p>This is not a model problem. It is a grounding problem. The models
+      are performing as designed; the enterprise has not yet done its part,
+      which is to make what it knows legible and verifiable to machines.</p>
+
+      <h2>The observation</h2>
+      <p>AI research labs own general capability. Every year, models improve
+      at language, reasoning, and synthesis across the public record. But a
+      medium-to-large enterprise generates its own proprietary data and
+      insight: definitions, metrics, and judgments that exist in no public
+      training set and never will.</p>
+      <p>The enterprise task, then, is grounding: turning proprietary
+      knowledge into structured context the model can use, and evaluated
+      answers you can trust. That responsibility belongs to whoever is
+      closest to the data's truth, because meaning that drifts from its
+      artifacts will not stay true.</p>
+
+      <h2>Three layers: from foundation to verifiable behavior</h2>
+      <p>The framework is a three-layer model. Each layer has a different
+      owner and a different failure mode, and the layers only work as a
+      system.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 520 330" role="img" aria-label="The three layers: build the data foundation, encode the meaning, evaluate the behavior">
+          <defs>
+            <marker id="arr-layers" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#555"></path>
+            </marker>
+          </defs>
+          <g font-family="'Liberation Sans', sans-serif">
+            <rect x="20" y="8" width="480" height="86" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="44" y="36" font-size="11" letter-spacing="1.5" fill="#777">LAYER 1</text>
+            <text x="44" y="60" font-size="14" font-weight="700" fill="#1a1a1a">BUILD THE DATA FOUNDATION</text>
+            <text x="44" y="80" font-size="11" fill="#333">Logging, pipelines, data quality, lineage &#8212; the computable foundation.</text>
+            <line x1="260" y1="98" x2="260" y2="112" stroke="#555" stroke-width="1.5" marker-end="url(#arr-layers)"/>
+            <rect x="20" y="118" width="480" height="86" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="44" y="146" font-size="11" letter-spacing="1.5" fill="#777">LAYER 2</text>
+            <text x="44" y="170" font-size="14" font-weight="700" fill="#1a1a1a">ENCODE THE MEANING</text>
+            <text x="44" y="190" font-size="11" fill="#333">Approved definitions and metric logic, versioned as artifacts.</text>
+            <line x1="260" y1="208" x2="260" y2="222" stroke="#555" stroke-width="1.5" marker-end="url(#arr-layers)"/>
+            <rect x="20" y="228" width="480" height="86" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="44" y="256" font-size="11" letter-spacing="1.5" fill="#777">LAYER 3</text>
+            <text x="44" y="280" font-size="14" font-weight="700" fill="#1a1a1a">EVALUATE THE BEHAVIOR</text>
+            <text x="44" y="300" font-size="11" fill="#333">Golden datasets, judges, and regression runs keep the layer honest.</text>
+          </g>
+        </svg>
+        <figcaption>Each layer has a different owner and a different failure
+        mode; the layers only work as a system.</figcaption>
+      </figure>
+
+      <div class="table-scroll">
+      <table class="mw-table">
+        <thead>
+          <tr><th>Layer</th><th>What it is</th><th>Owner</th><th>Failure mode</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1 — Build the data foundation</strong></td>
+            <td>Logging, architecture, pipelines, data quality, lineage — the artifacts that make enterprise data computable at all</td>
+            <td>Data engineering</td>
+            <td>Everything downstream guesses</td>
+          </tr>
+          <tr>
+            <td><strong>2 — Encode the meaning</strong></td>
+            <td>The semantic layer: approved definitions, metric logic, grain rules, versioned as artifacts</td>
+            <td>The definition owner — analyst or data engineer</td>
+            <td>Agents improvise meaning</td>
+          </tr>
+          <tr>
+            <td><strong>3 — Evaluate the behavior</strong></td>
+            <td>Golden datasets, judges, and regression runs</td>
+            <td>Data engineering and analytics</td>
+            <td>Enrichment degrades unnoticed</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>Taken together: data engineering is not disappearing. It is moving
+      up the stack. As agents become consumers of enterprise data, the scarce
+      skill is making data machines can understand, trust, and act on. The
+      pipelines may increasingly be written by AI. Accountability for the
+      data cannot be outsourced.</p>
+
+      <h2>Who does this work, and why the title is the wrong question</h2>
+      <p>It is tempting to assign this responsibility by job title. But
+      "analytics professionals" is too broad, and "data engineers" is too
+      narrow. The better criterion is proximity to <strong>artifact
+      truth</strong>: the people who can say where a number came from, how
+      it was transformed, and where it can mislead.</p>
+      <p>An analyst who authored the definitive churn definition owns its
+      meaning. The data engineer who owns the pipeline owns its provenance.
+      If you can answer those questions in your organization, this work is
+      already yours, whether or not anyone has named it yet. The framework
+      holds when the criterion is artifact truth, not headcount.</p>
+
+      <h2>Beyond RAG</h2>
+      <p>Retrieval-augmented generation (RAG) is one implementation of
+      enrichment, not the framework itself. The RAG flow is familiar: a user
+      asks a question, the system retrieves relevant text chunks from a
+      corpus, those chunks are added to the prompt, and the model answers
+      from the injected context. It is useful, and it is insufficient for
+      enterprise grounding in three specific ways.</p>
+
+      <div class="table-scroll">
+      <table class="mw-table">
+        <thead>
+          <tr><th></th><th>RAG alone</th><th>Structured grounding (this framework)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>What is retrieved</strong></td>
+            <td>Document chunks chosen by similarity search</td>
+            <td>Curated definitions, metric logic, grain rules, and lineage from a semantic layer</td>
+          </tr>
+          <tr>
+            <td><strong>What it knows</strong></td>
+            <td>"What did our docs say?"</td>
+            <td>"What is true about our business, and which governed computation proves it?"</td>
+          </tr>
+          <tr>
+            <td><strong>Failure it misses</strong></td>
+            <td>Wrong joins, stale definitions, double-counting — none visible to similarity search</td>
+            <td>Explicitly guarded by definitions and by evaluation against ground truth</td>
+          </tr>
+          <tr>
+            <td><strong>Proof</strong></td>
+            <td>Fluent answer with citations to retrieved chunks</td>
+            <td>Answer scored against golden answers; regressions block release</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>Enrichment is a choice among mechanisms, and the tradeoffs are worth
+      laying out plainly. The framework does not prescribe one mechanism; it
+      sets the criterion: whichever keeps meaning tied to the artifacts it
+      describes, and remains verifiable, is the right one for the job.</p>
+
+      <div class="table-scroll">
+      <table class="mw-table">
+        <thead>
+          <tr><th>Mechanism</th><th>How it supplies knowledge</th><th>Tradeoff</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Fine-tuning</strong></td>
+            <td>Baked into model weights</td>
+            <td>Opaque, and stale the day after training</td>
+          </tr>
+          <tr>
+            <td><strong>Prompt injection</strong></td>
+            <td>Context supplied at query time</td>
+            <td>Fragile, and limited by context window</td>
+          </tr>
+          <tr>
+            <td><strong>Semantic layer</strong></td>
+            <td>Governed computation — the metric is <em>defined</em>, not merely described</td>
+            <td>Requires maintained definitions</td>
+          </tr>
+          <tr>
+            <td><strong>RAG</strong></td>
+            <td>Retrieval over documents at query time</td>
+            <td>Misses wrong joins, stale definitions, double-counting</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>The gap RAG does not close is proof. A RAG system can show that the
+      model sounded right. Only evaluation — golden questions with
+      known-correct answers, run continuously — can show that it
+      <em>was</em> right. That is the bridge to the feedback loop.</p>
+      <p><strong>In short:</strong> context is what you give the model;
+      evaluation is how you know it still holds.</p>
+
+      <h2>The feedback loop that keeps meaning honest</h2>
+      <p>Enrichment decays. Insights are updated, definitions drift, new data
+      lands. A one-time enrichment is a project; the loop below is what turns
+      it into a maintained system. It exists because without step 3, step 1
+      decays silently: no one notices the agent answering with last quarter's
+      revenue definition until a board deck is wrong.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 520 560" role="img" aria-label="The feedback loop: define, serve, evaluate, detect drift, feed back, with the versioned fix returning to define">
+          <defs>
+            <marker id="arr-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#555"></path>
+            </marker>
+          </defs>
+          <g font-family="'Liberation Sans', sans-serif">
+            <rect x="90" y="12" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="38" font-size="11" letter-spacing="1.5" fill="#777">STEP 1</text>
+            <text x="108" y="60" font-size="13" font-weight="700" fill="#1a1a1a">DEFINE</text>
+            <text x="108" y="80" font-size="11" fill="#333">Approved definition: SQL, filters, grain rules</text>
+            <line x1="260" y1="96" x2="260" y2="116" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="122" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="148" font-size="11" letter-spacing="1.5" fill="#777">STEP 2</text>
+            <text x="108" y="170" font-size="13" font-weight="700" fill="#1a1a1a">SERVE</text>
+            <text x="108" y="190" font-size="11" fill="#333">Agents answer questions using those definitions</text>
+            <line x1="260" y1="206" x2="260" y2="226" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="232" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="258" font-size="11" letter-spacing="1.5" fill="#777">STEP 3</text>
+            <text x="108" y="280" font-size="13" font-weight="700" fill="#1a1a1a">EVALUATE</text>
+            <text x="108" y="300" font-size="11" fill="#333">Golden questions run on every change</text>
+            <line x1="260" y1="316" x2="260" y2="336" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="342" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="368" font-size="11" letter-spacing="1.5" fill="#777">STEP 4</text>
+            <text x="108" y="390" font-size="13" font-weight="700" fill="#1a1a1a">DETECT DRIFT</text>
+            <text x="108" y="410" font-size="11" fill="#333">Classify failures: agent, semantic, or data</text>
+            <line x1="260" y1="426" x2="260" y2="446" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="452" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="478" font-size="11" letter-spacing="1.5" fill="#777">STEP 5</text>
+            <text x="108" y="500" font-size="13" font-weight="700" fill="#1a1a1a">FEED BACK</text>
+            <text x="108" y="520" font-size="11" fill="#333">Route to the owner; version the fix into the layer</text>
+            <path d="M 90 492 L 40 492 L 40 52 L 84 52" fill="none" stroke="#777" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr-loop)"/>
+          </g>
+        </svg>
+        <figcaption>The loop runs continuously: the versioned fix from step 5
+        returns to step 1.</figcaption>
+      </figure>
+
+      <div class="table-scroll">
+      <table class="mw-table">
+        <thead>
+          <tr><th>Step</th><th>What happens</th><th>"Active customer" example</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1 — Define</strong></td>
+            <td>Write the approved definition — SQL, filters, grain rules — in the semantic layer</td>
+            <td>The approved definition (v3): its SQL, exclusions, and grain</td>
+          </tr>
+          <tr>
+            <td><strong>2 — Serve</strong></td>
+            <td>Agents answer questions using those definitions</td>
+            <td>Agents answer "how many active customers?" from that definition, not from improvisation</td>
+          </tr>
+          <tr>
+            <td><strong>3 — Evaluate</strong></td>
+            <td>Run the golden dataset continuously and on every change</td>
+            <td>50–100 golden questions run on every definition or model change</td>
+          </tr>
+          <tr>
+            <td><strong>4 — Detect drift</strong></td>
+            <td>Classify each failure: agent, semantic, or data drift</td>
+            <td>Failures classified as described in the drift section below</td>
+          </tr>
+          <tr>
+            <td><strong>5 — Feed back</strong></td>
+            <td>Route to the owner; version the fix back into the layer</td>
+            <td>Model errors to the agent owner; stale semantics to the definition owner; data issues to the pipeline owner</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>What "done" looks like: a dashboard the definition owners actually
+      consult, with pass rates per metric, trend lines, and a changelog
+      showing which definition version answered which question. And one
+      standing rule: <strong>no definition ships without its golden
+      questions, and no golden question passes without a versioned
+      definition behind it.</strong> That rule is what makes the system
+      maintainable rather than a one-off project.</p>
+
+      <h2>Evaluation in practice: graders and runs</h2>
+      <p>The golden dataset is built once and maintained indefinitely: 50 to
+      100 questions with known-correct answers, reviewed by the definition
+      owners. It covers the straightforward questions and the difficult
+      ones — "active customers in EMEA last quarter, excluding trial
+      accounts," "month-over-month change under the Q2 definition" — along
+      with deliberately ambiguous prompts ("how many customers do we have?")
+      that test whether the agent asks a clarifying question or guesses.
+      Each entry records the expected answer, the approved SQL or metric,
+      and the definition version it was validated against.</p>
+
+      <div class="table-scroll">
+      <table class="mw-table">
+        <thead>
+          <tr><th>Grader</th><th>What it checks</th><th>Scale</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Deterministic</strong></td>
+            <td>Approved metric ID, filters, and grain — exact match</td>
+            <td>Every query; inexpensive</td>
+          </tr>
+          <tr>
+            <td><strong>LLM-as-judge</strong></td>
+            <td>Whether open-ended answers match the golden answer; calibrated against human reviewers so the judge itself does not drift</td>
+            <td>Sampled; moderate cost</td>
+          </tr>
+          <tr>
+            <td><strong>Human spot-checks</strong></td>
+            <td>A sample of production answers reviewed by the definition owners</td>
+            <td>Weekly; catches what automation misses</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="table-scroll">
+      <table class="mw-table">
+        <thead>
+          <tr><th>Run</th><th>Trigger</th><th>What it catches</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Pre-deploy</strong></td>
+            <td>Any change: model version, agent prompt, edited definition</td>
+            <td>Regressions — what used to pass and now fails</td>
+          </tr>
+          <tr>
+            <td><strong>Scheduled</strong></td>
+            <td>Nightly or weekly, sampling real production questions</td>
+            <td>Slow degradation and drift in live traffic</td>
+          </tr>
+          <tr>
+            <td><strong>Shadow</strong></td>
+            <td>New definitions run alongside old ones for a period</td>
+            <td>Divergence beyond threshold before the new definition is trusted</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h2>Identifying drift in practice</h2>
+      <p>Drift is how a correct system becomes a confidently wrong one. There
+      are three distinct failure modes, each with its own signals and owner.
+      Conflating them misdirects the response to the wrong owner.</p>
+
+      <div class="table-scroll">
+      <table class="mw-table">
+        <thead>
+          <tr><th>Drift</th><th>What changed</th><th>How you spot it</th><th>Owner</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Agent drift</strong></td>
+            <td>The model answers differently; nothing else changed</td>
+            <td>Golden-set regression with definitions and data unchanged; judge-score trendlines sliding on one metric</td>
+            <td>Agent / model owner</td>
+          </tr>
+          <tr>
+            <td><strong>Semantic drift</strong></td>
+            <td>The business changed what it means; the definitions did not follow</td>
+            <td>The golden answer is challenged rather than the agent's; cross-system discrepancies (finance vs. agent); product or org changes with a quiet definition changelog</td>
+            <td>Definition owner</td>
+          </tr>
+          <tr>
+            <td><strong>Data drift</strong></td>
+            <td>The ground shifted under correct definitions</td>
+            <td>Freshness SLAs, row-count and null-rate anomalies, distribution shifts; answer-level jumps traced to a late partition or broken job; lineage names the affected definitions</td>
+            <td>Pipeline owner</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p><strong>Operating rule:</strong> every detection routes to an owner.
+      Agent drift goes to the agent owner, data drift to the pipeline owner,
+      semantic drift to the definition owner. An alarm that cannot be routed
+      is not a detection system; it is a dashboard no one reads.</p>
+
+      <h2>Closing</h2>
+      <p>Nothing in this framework is speculative. Every component exists in
+      practice: teams already maintain semantic layers, run golden datasets,
+      and page pipeline owners on data drift. What is new is assembling the
+      components as one system, with each layer owned by the people closest
+      to its truth, and a loop that keeps the whole system honest over
+      time.</p>
+      <p>If you are one of those people — if you can say where a number came
+      from, how it was transformed, and where it can mislead — this work is
+      already yours. The agents are not going away, and neither is the need
+      for someone to be accountable for what they say about your
+      business.</p>
+
+      <hr>
+      <h2>Further reading</h2>
+      <ul>
+        <li><a href="https://docs.getdbt.com/docs/use-dbt-semantic-layer/sl-faqs">dbt Semantic Layer FAQs</a> — what a semantic layer is and what it does: centrally defined metrics, dynamic SQL generation, APIs for downstream tools.</li>
+        <li>Lewis et al., <a href="https://arxiv.org/abs/2005.11401">"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"</a> (2020) — the original RAG paper; useful for seeing exactly what the retrieval-over-documents pattern does and does not claim.</li>
+        <li>Zheng et al., <a href="https://arxiv.org/abs/2306.05685v3">"Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena"</a> (2023) — the case for and the limits of using strong LLMs as evaluators, including the biases to calibrate out.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <a href="mailto:neboiwenofu@gmail.com">neboiwenofu@gmail.com</a>
+      · Built by hand, no framework.
+    </p>
+  </footer>
+
+</div>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4ad785e448f9467da46e966065a11e30"}'></script><!-- End Cloudflare Web Analytics --> </body>
+</html>
