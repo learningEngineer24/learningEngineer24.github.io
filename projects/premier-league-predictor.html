@@ -85,7 +85,8 @@
         new section below.</li>
         <li><strong>Iterate</strong> — feed what I learn back into the model.
         Current ideas: combining the model with Elo, expected-goals features,
-        and — once a full season of results exists — a properly powered comparison against the bookmakers.</li>
+        and — once a full season of results exists — a properly powered
+        comparison against the bookmakers.</li>
       </ol>
 
       <details class="mw-details">
@@ -95,6 +96,21 @@
         </summary>
 
         <p>Preview, published before a ball is kicked. The model was refit on all 1,950 games played through September 20 (σ=0.5 shrinkage, 180-day time decay). The Elo challenger runs alongside and agrees with 8 of the 10 picks.</p>
+
+        <h3>Injury watch <span class="mw-range">Oct 8 — not a model input</span></h3>
+        <p>The international break was brutal — the numbers above don't know any of this. Key availability notes per game, from press reports on Oct 7–8:</p>
+        <ul class="injury-list">
+          <li><strong>Arsenal v Leeds:</strong> Arsenal's defensive crisis — Saliba out, Tzolis out, Konsa/Havertz/White all doubts. Leeds missing Rodon and Dan James.</li>
+          <li><strong>Aston Villa v Brentford:</strong> light — Villa (Suzuki), Brentford (Damsgaard ankle).</li>
+          <li><strong>Chelsea v Bournemouth:</strong> Chelsea hit hard — Palmer, Reece James and Caicedo all doubts, João Pedro out. Bournemouth missing Alex Scott (4–5 weeks).</li>
+          <li><strong>Ipswich v Fulham:</strong> clean — no reported injuries on either side.</li>
+          <li><strong>Sunderland v Brighton:</strong> Sunderland's hamstring crisis — Diarra, Brobbey and Ballard all out.</li>
+          <li><strong>Man United v Tottenham:</strong> both depleted — United with doubts over Sesko, Dorgu and Mazraoui; Spurs missing Kulusevski, Simons, Odobert and Porro.</li>
+          <li><strong>Crystal Palace v Nott'm Forest:</strong> quiet — Palace (Khalaili); Forest's Awoniyi suspended.</li>
+          <li><strong>Hull v Everton:</strong> minimal — Hull (Stroud illness), Everton (Mykolenko knock).</li>
+          <li><strong>Liverpool v Man City:</strong> the big one — Liverpool could be without Isak and Gakpo; City's Haaland (fatigue) trained Thursday, Foden suspended.</li>
+          <li><strong>Coventry v Newcastle:</strong> Coventry missing Amenda (3 months), Wright (Nov) and Jaouen (2 months); Newcastle mostly intact.</li>
+        </ul>
 
         <div class="table-scroll">
           <table class="mw-table">
@@ -268,7 +284,8 @@
           <h3>What I take from this week</h3>
           <p>Four out of ten — level with the bookmakers on accuracy, a touch behind on log loss (1.144 vs 1.080), and behind the Elo challenger, which had the best week of the three at 5 of 10. An honest, average week.</p>
           <p>A necessary caveat on all of the above, added after a review of this project: fifty games say almost nothing. The model's log-loss edge over the bookmakers across the five evaluated weeks is −0.015 per game with a standard error of 0.045 — statistically indistinguishable from zero. None of the gaps between the models clear that bar either. The honest reading is that the model is competitive with the bookmakers, and the ranking is unresolved until a full season of games accumulates.</p>
-          <p>The encouraging part: the two games where the model disagreed with the market, it was right both times — Brentford over Chelsea and Villa at Spurs. The draw story also got smaller on inspection: the evaluation window was unusually draw-heavy (32% vs ~26% long-run), and on 760 earlier games the model predicts draws at 25.1% against 25.9% actual — well calibrated. Draws are the hardest outcome for every model, but there's no structural blind spot to fix.</p>          <p>And the Forest–Coventry game did its job as a stress test. The old model's 0.04% was a failure of humility; 7% is a number a reasonable person could hold. Shrinkage works as advertised — though it's worth saying plainly that this one game accounts for nearly all of the measured v1-to-v2 improvement. The fix is principled; the victory lap is premature.</p>
+          <p>The encouraging part: the two games where the model disagreed with the market, it was right both times — Brentford over Chelsea and Villa at Spurs. The draw story also got smaller on inspection: the evaluation window was unusually draw-heavy (32% vs ~26% long-run), and on 760 earlier games the model predicts draws at 25.1% against 25.9% actual — well calibrated. Draws are the hardest outcome for every model, but there's no structural blind spot to fix.</p>
+          <p>And the Forest–Coventry game did its job as a stress test. The old model's 0.04% was a failure of humility; 7% is a number a reasonable person could hold. Shrinkage works as advertised — though it's worth saying plainly that this one game accounts for nearly all of the measured v1-to-v2 improvement. The fix is principled; the victory lap is premature.</p>
         </div>
       </details>
 
