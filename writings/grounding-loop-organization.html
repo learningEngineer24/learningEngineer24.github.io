@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Grounding Loop: What It Means for Your Organization — Nebo Iwenofu</title>
+  <meta name="description" content="Data governance problems predate LLMs; agents just removed the human backstop. What the grounding loop demands of an organization: named owners, an enforceable platform contract, and a Captain.">
+  <link rel="canonical" href="https://neboiwenofu.com/writings/grounding-loop-organization.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Grounding Loop: What It Means for Your Organization — Nebo Iwenofu">
+  <meta property="og:description" content="Data governance problems predate LLMs; agents just removed the human backstop. What the grounding loop demands of an organization: named owners, an enforceable platform contract, and a Captain.">
+  <meta property="og:url" content="https://neboiwenofu.com/writings/grounding-loop-organization.html">
+  <meta property="og:image" content="https://neboiwenofu.com/profile.jpg">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .diagram svg { width: 100%; height: auto; display: block; }
+    .diagram { border: 1px solid var(--rule); padding: 1.25rem 1rem 0.5rem; background: #fbfbfa; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-header">
+    <p class="site-name"><a href="../index.html">Nebo Iwenofu</a></p>
+    <nav class="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../writing.html" aria-current="page">Writing</a>
+      <a href="../reading.html">Reading</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h1>The Grounding Loop: What It Means for Your Organization</h1>
+      <p class="meta">October 2026</p>
+
+<p class="series"><strong>Series:</strong> <a href="../projects/grounding-loop.html">The Grounding Loop</a> (does it work) · <a href="../projects/grounding-loop-managing-drift.html">Grounding the Loop: Managing Drift</a> (keeping it honest as the world moves)</p>
+
+<h2>TL;DR</h2>
+
+<p>This is a follow-up to <a href="https://neboiwenofu.com/writings/data-engineering-agent-era.html">Data Engineering in the Agent Era</a>. Data governance problems predate LLMs: downstream misuse, silent quality and freshness rot, and diffuse ownership. Humans were the backstop; it worked badly, but it worked. LLMs removed the backstop. Agents now act on enterprise data at machine speed, with no judgment in the loop and no one owning the wrong answer.</p>
+
+<p>The answer is not better prompts. Each layer of the stack is a control, and controls need owners: encode meaning where a compiler can enforce it, disclose at serve time what the encoding knows, evaluate continuously. That means each domain's cross-functional team owns its path from source to answer, stewards inside the team operate the enforcement with real authority, and business stakeholders get a consumer contract.</p>
+
+<hr>
+
+<h2>Common Data Governance Issues in Organizations</h2>
+
+<p>It is tempting to tell this story as if AI created the governance problem. It did not. It inherited it, and then made it urgent. Three issues show up in almost every organization, and they predate agents by years.</p>
+
+<div class="table-scroll">
+<table class="mw-table">
+<thead>
+<tr><th>What should exist</th><th>What usually existed</th></tr>
+</thead>
+<tbody>
+<tr><td>One definition of revenue</td><td>Finance's revenue, sales' revenue, the dashboard's revenue, each slightly different</td></tr>
+<tr><td>Definitions versioned and reviewed</td><td>A wiki page last updated two reorgs ago</td></tr>
+<tr><td>Freshness guarantees</td><td>"The dashboard is usually right by standup"</td></tr>
+<tr><td>An owner for every metric</td><td>Everyone and no one; ask three people, get two answers and a shrug</td></tr>
+<tr><td>Change management for definitions</td><td>A Slack message: "heads up, we changed how refunds are counted"</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The industry knew. Data contracts, data mesh's "data as a product," the semantic layer (dbt, MetricFlow, Cube): all attempts to fix exactly this. But adoption was slow, because the cost of the disease was tolerable. That is the world the semantic layer was born into: a good idea, slowly adopted, treated as a BI convenience rather than infrastructure. Nobody's bonus depended on it.</p>
+
+<h3>Downstream usage of data</h3>
+
+<p>Most organizations do not have a data-driven culture. They have dashboards. And even in the best cases, with careful and well-intentioned users, the anti-patterns around downstream use are everywhere:</p>
+
+<ul>
+<li><strong>Confirmation bias as a query strategy.</strong> Pulling the cut that supports the decision already made, then stopping. The data becomes decoration for a conclusion, not an input to one.</li>
+<li><strong>Partial reads.</strong> Quoting the headline number without the segment breakdown that reverses it. Simpson's paradox as a daily occurrence: the total is up, every segment is down, nobody looks.</li>
+<li><strong>Ignored context.</strong> Not knowing the definition changed last quarter, the period is still preliminary, or the segment silently excludes something material. The caveats live in someone's head or a wiki nobody opens before a meeting.</li>
+<li><strong>Metric shopping.</strong> When two dashboards disagree, citing the one that helps. The disagreement itself, which should be the alarm, becomes a menu.</li>
+<li><strong>Dashboard theater.</strong> Metrics maintained out of habit that no decision actually depends on, consuming maintenance attention the metrics that matter never receive.</li>
+</ul>
+
+<p>The system relies on the user supplying the context the data does not carry. Most of the time, nobody does.</p>
+
+<h3>Data quality and freshness</h3>
+
+<p>As data moves through an organization, ingested, transformed, aggregated, served, it picks up two kinds of rot. Quality: duplicates from a retried load, nulls handled three different ways in three pipelines, a dimension that quietly stopped updating weeks ago. Freshness: the number you acted on is not the number anymore.</p>
+
+<p>The classic version: June revenue was $2.28M when the forecast was locked, targets were set, and hiring plans were approved in the Monday business review. Then the late partner payouts arrived and it became $2.45M. Nothing announced the change. The forecast, the plan, and the bonus math were all built on the preliminary number, and nobody re-ran the decision, because nobody knew there was a new number to re-run it on.</p>
+
+<p>Quality and freshness failures share a property: they are silent. The dashboard does not say "I am stale." It says the number, confidently, in the same font as yesterday.</p>
+
+<h3>Clarity in ownership</h3>
+
+<p>When the dashboard is wrong, who fixes it? Today the answer is a finger-pointing exercise with three participants:</p>
+
+<ul>
+<li><strong>The data engineer</strong>, whose primary focus is that the systems run as intended. The pipeline ran green. The SQL did what the SQL said. From their seat, nothing is broken.</li>
+<li><strong>The data scientist</strong>, spread thin across six workstreams, whose model started as a point-in-time analysis and somehow became production. It was never designed to be maintained; now it is load-bearing.</li>
+<li><strong>The product manager</strong>, who needs the number for a decision this week, is not technical enough to debug it, and has no lever to pull except asking louder.</li>
+</ul>
+
+<p>Everyone owns a piece; no one owns the meaning. The finger-pointing is not malice; it is structure. Each role is incentivized to keep their part running, and the seams between them belong to nobody. Definitions live in the seams.</p>
+
+<h3>How LLMs and Agents have Impacted this Problem</h3>
+
+<p>What made all three tolerable was the human backstop: an analyst who noticed something off, asked a question, and reconciled the disagreement. Then agents became consumers of enterprise data, and the problems got worse in specific ways.</p>
+
+<p><strong>First, the expectation gap.</strong> The spread of LLMs has created a reasonable expectation: ask the tool about last quarter, get an answer grounded in our data. Today's disjointed setups have not delivered it. The agent answers fluently, the numbers look right, and sometimes they are invented. Getting burned once by a hallucinated number in front of stakeholders is enough. Trust does not erode gradually here; it snaps. Then the expensive licenses sit unused, because nobody wants to be the person who quoted the model.</p>
+
+<p><strong>Second, the backstop disappeared.</strong> An agent does not squint. It does not notice that revenue looks off this month, or that "refunds" might mean something different than last quarter. Every ambiguity that a human analyst resolved tacitly, with context, with a question, with judgment, becomes a silent wrong answer. In <a href="../projects/grounding-loop-managing-drift.html">Part 2</a>'s meaning-drift experiment (n=8, one model, one run), the agent was shown the new definition outright and still used the old one 0 out of 8 times. A human would have at least asked. The agent answered confidently.</p>
+
+<p><strong>Third, scale and speed.</strong> A confused analyst misleads one stakeholder meeting. A confused agent misleads every user, every query, until someone notices. The canary work in <a href="../projects/grounding-loop-managing-drift.html">Part 2</a> (re-running a set of known questions on a schedule to catch changed answers) exists precisely because noticing got harder, not easier. Stale answers do not announce themselves.</p>
+
+<p><strong>Fourth, agents act.</strong> A dashboard being wrong is a reporting problem. An agent being wrong is an operational problem: it drafts the email, files the report, triggers the workflow. The cost of a wrong definition moved from "slow decision" to "wrong action taken at machine speed."</p>
+
+<p>And the fragmentation got worse, not better. Every team building its own agent wrote its own prompts, its own metric descriptions, its own tool definitions. The same metric defined N times in N prompts, drifting independently. The pre-LLM problem (everyone and no one owns the definition) replicated itself inside every agent, except now the definitions were embedded in prose that no compiler could check.</p>
+
+<p><strong>Finally, the responsibility vacuum.</strong> When the old issues went wrong, at least the finger-pointing stayed inside the analytics org. Now there are new candidates: the LLM vendor ("the model did what models do"), IT ("we provisioned the tool; the data isn't ours"), the analytics team ("we never approved that agent reading our tables"). Most organizations have no answer for who owns a wrong AI-generated number. So the problems grow unattended, adoption of the expensive tools stalls, and the goal they were bought for, better decisions, quietly dies.</p>
+
+<p>So the old answer, "governance as documentation," stopped being sufficient. You cannot put a wiki in front of an agent and expect compliance. The problem did not change shape; it changed stakes. Governance went from a quality initiative to a prerequisite.</p>
+
+<h2>How my solution addresses these problems</h2>
+
+<p>In Data Engineering in the Agent Era I argued the job moves up the stack in three layers: build the foundation, encode the meaning, evaluate the behavior. Read organizationally, each layer is a control, and controls need owners. The whole proposal follows from five principles:</p>
+
+<ol>
+<li>Governance is a platform property, not an agent capability.</li>
+<li>Nothing load-bearing depends on the model's discretion.</li>
+<li>Every guarantee needs an owner, or it isn't a guarantee.</li>
+<li>Disclosure the platform attaches beats disclosure the model volunteers.</li>
+<li>Name the metric that would prove you wrong, and watch it.</li>
+</ol>
+
+<p>The loop this piece is named for is the cycle the moves form: encode the meaning, disclose it at serve time, evaluate continuously, and feed what the evaluation finds back into the encoding. Everything that follows is about keeping that loop running inside every domain.</p>
+
+<figure class="diagram">
+<svg role="img" aria-label="The feedback loop: define, serve, evaluate, detect drift, feed back" viewBox="0 0 520 560" role="img" aria-label="The feedback loop: define, serve, evaluate, detect drift, feed back, with the versioned fix returning to define">
+          <defs>
+            <marker id="arr-loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#555"></path>
+            </marker>
+          </defs>
+          <g font-family="'Liberation Sans', sans-serif">
+            <rect x="90" y="12" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="38" font-size="11" letter-spacing="1.5" fill="#777">STEP 1</text>
+            <text x="108" y="60" font-size="13" font-weight="700" fill="#1a1a1a">DEFINE</text>
+            <text x="108" y="80" font-size="11" fill="#333">Approved definition: SQL, filters, grain rules</text>
+            <line x1="260" y1="96" x2="260" y2="116" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="122" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="148" font-size="11" letter-spacing="1.5" fill="#777">STEP 2</text>
+            <text x="108" y="170" font-size="13" font-weight="700" fill="#1a1a1a">SERVE</text>
+            <text x="108" y="190" font-size="11" fill="#333">Agents answer questions using those definitions</text>
+            <line x1="260" y1="206" x2="260" y2="226" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="232" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="258" font-size="11" letter-spacing="1.5" fill="#777">STEP 3</text>
+            <text x="108" y="280" font-size="13" font-weight="700" fill="#1a1a1a">EVALUATE</text>
+            <text x="108" y="300" font-size="11" fill="#333">Golden questions run on every change</text>
+            <line x1="260" y1="316" x2="260" y2="336" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="342" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="368" font-size="11" letter-spacing="1.5" fill="#777">STEP 4</text>
+            <text x="108" y="390" font-size="13" font-weight="700" fill="#1a1a1a">DETECT DRIFT</text>
+            <text x="108" y="410" font-size="11" fill="#333">Classify failures: agent, semantic, or data</text>
+            <line x1="260" y1="426" x2="260" y2="446" stroke="#555" stroke-width="1.5" marker-end="url(#arr-loop)"/>
+            <rect x="90" y="452" width="340" height="80" rx="4" fill="#f7f7f5" stroke="#555" stroke-width="1.5"/>
+            <text x="108" y="478" font-size="11" letter-spacing="1.5" fill="#777">STEP 5</text>
+            <text x="108" y="500" font-size="13" font-weight="700" fill="#1a1a1a">FEED BACK</text>
+            <text x="108" y="520" font-size="11" fill="#333">Route to the owner; version the fix into the layer</text>
+            <path d="M 90 492 L 40 492 L 40 52 L 84 52" fill="none" stroke="#777" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr-loop)"/>
+          </g>
+        </svg>
+</figure>
+
+<p>Three moves implement them. Layer 1, the data foundation, is prior work: the pipelines, quality, and contracts you need regardless. The moves live in layers 2 and 3.</p>
+
+<p><strong>Encode the meaning where it can be enforced.</strong> Layer 2 at build time. Definitions move out of prompts and wikis, which no machine can check, into a layer a compiler can refuse to violate. The platform says no deterministically, before the wrong answer exists. Organizationally, this is governance with teeth: a review committee can be skipped, a compiler cannot. The leadership decision is who writes the rules the compiler enforces, and who is allowed to override them.</p>
+
+<p><strong>Disclose at serve time what the layer knows.</strong> Layer 2 at serve time. An encoded meaning is only half the job if the answer arrives without its caveats. Freshness badges in BI are platform-rendered, not analyst-volunteered, because no serious organization stakes decisions on every analyst remembering the caveats. Agent answers need the same treatment: the serving layer attaches what the user must be told, regardless of what the model felt like mentioning. A guarantee living in infrastructure has an owner, a test suite, and an SLA. A prompt instruction has none of those. That is the difference between a control and a wish.</p>
+
+<p><strong>Evaluate continuously, as an operating ritual.</strong> Layer 3. Re-running the questions stakeholders actually ask, on every material data or definition change, turns "are our answers still right?" from a quarterly worry into a daily fact. The loop is a team operating cadence: someone runs it, someone triages it, someone is accountable when it goes red. For leadership, this is the observable proof the other two controls hold, and the early warning when they do not.</p>
+
+<p>The platform contract, stated plainly:</p>
+
+<div class="table-scroll">
+<table class="mw-table">
+<thead>
+<tr><th>Guarantee</th><th>Enforced by</th><th>If it fails</th></tr>
+</thead>
+<tbody>
+<tr><td>Metric definitions compile to correct SQL</td><td>Compiler: the fan-out guard blocks row-multiplying joins, plus join validation</td><td>Build breaks; no query ships</td></tr>
+<tr><td>Canonical meanings are respected</td><td>Compiler: refuses superseded dimensions</td><td>Recoverable error; agent re-queries correctly</td></tr>
+<tr><td>Known caveats reach the user</td><td>Serving layer: attaches disclosure notes deterministically</td><td>Platform bug; owned like any serving bug, with an SLA</td></tr>
+<tr><td>Changed answers are detected</td><td>Canary (golden-set re-runs)</td><td>STALE flag; triaged by the owning team</td></tr>
+<tr><td>Definitions change through a process</td><td>Governance workflow (see the FAQ below)</td><td>Ungoverned change; the canary catches the answers anyway</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Notice what is not on the list: "the agent behaves well." Nothing load-bearing depends on the model's discretion. That is the whole thesis, restated organizationally: governance is a platform property, and platform properties have owners.</p>
+
+<h3>Why this shape, and not the alternatives</h3>
+
+<p>Three architectures compete for this problem. Worth stating why this one.</p>
+
+<p><strong>App-specific prompts and tools.</strong> Each agent team writes its own metric descriptions into its own prompts. Maximum flexibility, zero coordination cost, the fastest way to start. But every definition now exists N times in N prompts, drifting independently, enforced by nothing. Correctness depends on every prompt author remembering every caveat. This is the pre-LLM fragmentation reproduced inside the agents. It scales the problem, not the solution.</p>
+
+<p><strong>Better data contracts, no serving layer.</strong> Invest in warehouse-level contracts: freshness SLOs, schema tests, quality checks. Worth doing regardless, and it fixes data correctness. But it stops at the warehouse door. Nothing governs what the agent does with correct data: misread definitions, missing caveats, silent staleness at answer time. The contract says the data is fresh; it cannot say the answer is honest.</p>
+
+<p><strong>The serving layer, per domain (this proposal).</strong> Each domain's definitions live once, in a form a compiler checks; guarantees are enforced deterministically; disclosure is attached by the platform. Highest correctness, but real costs: every domain builds out its own loop, and the maintenance toil the tradeoffs section weighs honestly.</p>
+
+<div class="table-scroll">
+<table class="mw-table">
+<thead>
+<tr><th></th><th>Correctness</th><th>Flexibility</th><th>Latency</th><th>Cost</th><th>Maintainability</th></tr>
+</thead>
+<tbody>
+<tr><td>Per-agent prompts</td><td>Low (unenforced)</td><td>Highest</td><td>None added</td><td>Low upfront, high in incidents</td><td>Poor (definitions drift N ways)</td></tr>
+<tr><td>Data contracts only</td><td>Medium (data, not answers)</td><td>High</td><td>None added</td><td>Moderate</td><td>Good (warehouse-native)</td></tr>
+<tr><td>Per-domain serving layer</td><td>Highest (enforced)</td><td>Constrained</td><td>Small (compile plus attach)</td><td>Higher (platform plus toil)</td><td>Good if owned, rots if not</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The honest version: start with contracts (you need them anyway), add the serving layer where agents inform decisions at scale, and never pretend prompts are governance.</p>
+
+<p>One question the table doesn't settle: build or buy. The prototype hand-rolled its compiler (MetricFlow was ruled out for the DuckDB fixture), but an enterprise adopting this should evaluate extending an existing semantic layer, dbt, MetricFlow, Cube, before building. The requirements any option must meet are the guarantees above: definitions a machine can refuse to violate, disclosure attached by the platform, and continuous evaluation. Buy the parts that are commodities. The guarantees are the part you can't outsource.</p>
+
+<h3>The Tradeoffs</h3>
+
+<p>None of this is free, and an organization adopting it should know the price.</p>
+
+<p><strong>Maintenance cost vs value.</strong> The loop runs on toil: golden questions, canary triage, definition reviews. For a small team with stable definitions, this is overkill. The value concentrates where definitions change, stakes are high, and agents serve many users. Adopt it there first.</p>
+
+<p><strong>Approved vs unapproved drift.</strong> As the golden set grows, legitimate definition evolution looks identical to ungoverned drift, and every STALE flag trains the team to ignore the canary. The change process has to distinguish the two, or the detection system rots from false positives.</p>
+
+<h3>How you know it's working</h3>
+
+<p>A proposal needs observable outcomes, or it's a vision deck. This is a sketch; the real numbers come from the pilot.</p>
+
+<ul>
+<li><strong>Answer correctness:</strong> canary pass rate over time; disclosure coverage (the share of answers touching restated or redefined periods that carried the note).</li>
+<li><strong>Governance health:</strong> definition-change lead time, from proposal to enforced; the share of changes going through the process versus around it.</li>
+<li><strong>Adoption:</strong> analyst bypass rate (queries routed around the layer); number of domains running the loop with ownership assigned.</li>
+<li><strong>Cost:</strong> toil hours per domain per quarter (golden questions, triage, reviews). Priced openly, not hidden.</li>
+</ul>
+
+<p>If the bypass rate climbs, the strictness is theater and the design is wrong. That metric is the one that keeps the whole thing honest.</p>
+
+<h2>What does this mean for your organization?</h2>
+
+<p>If meaning becomes infrastructure, the analytics organization reshapes around it.</p>
+
+<p><strong>End-to-end ownership, per domain.</strong> Each domain's cross-functional team owns its data flow end to end: the pipelines that produce it, the definitions that give it meaning, the dashboards and agents that serve it. There is no central owner of meaning. There are domain teams, each building out the loop by following the shared principles. When the number is wrong, there is no triangle to convene. The domain team owns it.</p>
+
+<p><strong>Data stewards and governance functions</strong> get teeth for the first time, from inside the domain team. Governance stops being the team that writes the wiki nobody reads; stewards sit in the cross-functional v-team (virtual team) and operate the enforcement: the change workflow, the compiler rules, the disclosure machinery. The team makes the call on any given metric; its stewards make sure the call goes through the process, and that the process has teeth. This is a promotion in practice, but it requires the organization to actually grant the authority. A steward who can be overruled by any team shipping a prompt is decoration.</p>
+
+<p><strong>Business stakeholders (finance, sales, ops)</strong> gain something they never had: a consumer contract. Freshness badges, disclosure notes, preliminary-vs-final labels: the caveats arrive attached to the answers instead of living in someone's head. In exchange, definition changes become governed events they participate in. When finance redefines refunds, it goes through the change process: the new definition, the effective date, the migration, the communication. More ceremony than a Slack message; fewer 2 AM reconciliation threads.</p>
+
+<h3>The organizational machinery, as FAQ</h3>
+
+<p>Three principles sit above the specifics:</p>
+
+<ul>
+<li><strong>Iterate on structure.</strong> Organizations must feel comfortable iterating on their structure until they find the one that lets them achieve their goals. The roles this proposal needs can sit in different org charts; what can't flex is the accountability: every domain owns its data flow, and the Captain owns the outcome.</li>
+<li><strong>Decide at the scope.</strong> Each domain (or working team) should feel empowered to make decisions aligned to the context of its scope. Authority lives where the context lives.</li>
+<li><strong>Assign a captain.</strong> An implementation captain navigates the ambiguity of this work: setting the high-level strategy, unblocking cross-domain collaboration, and measuring and monitoring org-level adoption, quality, and migration progress. They don't own any domain's data; they own the outcome. That makes the Captain the one deliberately centralized element in a federated design: a central authority of last resort, with power bestowed by the organization's leader. The trigger is narrow: a domain refusing to adopt the loop after support. The power is bounded to the loop's adoption. Everything else stays with the domains.</li>
+</ul>
+
+<p>The specifics, stated plainly enough to argue with:</p>
+
+<div class="table-scroll">
+<table class="mw-table">
+<thead>
+<tr><th>Question</th><th>This proposal's answer</th></tr>
+</thead>
+<tbody>
+<tr><td>Who proposes a definition change?</td><td>Anyone in the organization with relevant subject-matter expertise. The data exists to drive better decisions, so if the people making the decisions, or the people closest to them, have suggestions, that input must be welcomed.</td></tr>
+<tr><td>Who approves it?</td><td>The domain's cross-functional team. The industry trend is toward small cross-functional teams that own a product or feature. As owners, they're the ones with the most relevant prioritization mechanism in the organization, which puts them in the best position to make the call on metric changes.</td></tr>
+<tr><td>What happens when two domains disagree about a definition?</td><td>The domain that reports the number has the final say. Finance reports revenue, so finance defines revenue. Definitional authority follows reporting accountability.</td></tr>
+<tr><td>Where does the owning team sit?</td><td>Where the team sits is flexible, and depends on the organization's maturity. This approach works whether you're structured functionally or by product.</td></tr>
+<tr><td>Is there a central platform owner?</td><td>No central owner of data or implementation. Domain teams own their data flow end to end, each building out its own loop by following the shared principles. The one centralized element is the Captain's accountability of last resort, described below, and it is deliberately narrow.</td></tr>
+<tr><td>What compels a domain to comply?</td><td>The Captain: the one deliberately centralized element in this federated design, a central authority of last resort with power bestowed by the organization's leader. The Captain doesn't own implementation but is responsible for the outcome. When a domain declines, the team is responsible for fixing it with the Captain's support. Changing the team is the last resort, triggered only when a domain refuses to adopt after support, and bounded to the loop's adoption.</td></tr>
+<tr><td>Who maintains the shared principles?</td><td>Senior leaders from each domain's v-team, in collaboration with the Captain. There's no central owner of the principles; the senior leaders maintain and evolve them together as the domains learn, and they're the ones who coordinate externally with the Captain and other domains.</td></tr>
+<tr><td>New team, new role, or a hat someone wears?</td><td>No new team. The domain's cross-functional v-team takes this on as part of owning its data flow, with steward and coordination responsibilities assigned inside the team. Ownership lives where the data lives.</td></tr>
+<tr><td>What happens when a team bypasses the layer?</td><td>Nothing breaks, and that's the point. The bypass is visible (bypass rate is a tracked metric), those answers carry no disclosure guarantees, and repeated bypass is a design signal, not a policy violation. If the bypass rate climbs, the strictness is theater. That covers individual queries going around the layer. A domain refusing to adopt the loop is different, and that's where the Captain's authority applies.</td></tr>
+<tr><td>Who writes the golden questions?</td><td>Anyone who knows where the bodies are buried: which metrics get misread, which periods are treacherous, which definitions the business argues about. No definition ships without its golden questions.</td></tr>
+<tr><td>Who triages the canary, and how fast?</td><td>The owning domain team, on a defined cadence (daily for high-churn domains). A red canary is an incident, not a backlog item. The exact SLA is set by the pilot.</td></tr>
+<tr><td>What keeps this maintained?</td><td>Maintenance sits in the domain team's charter with a budget, not a favor. Definition authorship counts the way code review counts; canary health is a team metric, reported like uptime.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>What it costs</h3>
+
+<p>Nobody has priced this yet, so treat everything here as a bracket to be validated by the pilot, not a quote.</p>
+
+<ul>
+<li><strong>The pilot:</strong> a 2-week sprint to build an MVP of what's possible. One domain, roughly two to three people part-time: an engineer, or someone with context on how data systems work, to stand up the layer; someone with domain-specific understanding, to write the golden questions; someone who can measure the loop, to price it. The deliverable is not just a working loop but a priced one: toil hours get logged, so the steady-state number is measured instead of guessed.</li>
+<li><strong>Steady state per domain:</strong> the toil is golden-question maintenance, canary triage, and definition reviews. It scales with definition churn, not data volume. Domains with stable definitions should find this close to zero, which is the point of adopting it where definitions change first.</li>
+<li><strong>The build-out, per domain:</strong> each domain sets up its own loop, the compiler, disclosure attachment, and canary runner, following the shared principles. Whether that's new construction or an extension of the existing semantic layer changes the number by an order of magnitude, which is why the pilot should test the cheapest viable shape first. The principles are shared; the build-out isn't.</li>
+<li><strong>The cost of not doing it:</strong> the licenses already bought and gathering dust after the first hallucinated number, the decisions built on preliminary figures nobody re-ran, the reconciliation threads. Most organizations are already paying this. It's just filed under different budgets.</li>
+</ul>
+
+<p>The most expensive part of this proposal is not the platform. It's the organizational attention: the reviews, the arbitration, the triage. Price that openly, or it becomes the reason the system rots.</p>
+
+<h2>What's next</h2>
+
+<p>This piece is a proposal argued from a prototype, not a report from production. The claims about ownership, toil, and what breaks need contact with a real analytics org to validate. The next step is the internal pilot: one real domain, a 2-week sprint to build an MVP of what's possible, then write up what broke. The false positives, the arguments about definitions, who maintained what, what it cost. That is the evidence this piece cannot supply from a fixture.</p>
+
+<hr>
+
+<p><em>This piece leads the Grounding Loop series and follows up on <a href="https://neboiwenofu.com/writings/data-engineering-agent-era.html">Data Engineering in the Agent Era</a>. The technical companions build the prototype this piece organizes around: <a href="../projects/grounding-loop.html">Part 1</a> constructs the governed semantic layer, and <a href="../projects/grounding-loop-managing-drift.html">Part 2</a> runs the drift machinery. Written to be lifted: the principles, the contract, the FAQ, and the metrics are built so another organization can turn them into its strategy doc. The code is public: <a href="https://github.com/learningEngineer24/grounding-loop">github.com/learningEngineer24/grounding-loop</a>.</em></p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <a href="mailto:neboiwenofu@gmail.com">neboiwenofu@gmail.com</a>
+      · Built by hand, no framework.
+    </p>
+  </footer>
+
+</div>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4ad785e448f9467da46e966065a11e30"}'></script><!-- End Cloudflare Web Analytics --> </body>
+</html>
