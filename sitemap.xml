@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://neboiwenofu.com/</loc>
-    <lastmod>2026-09-28</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://neboiwenofu.com/writing.html</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-10-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -18,14 +18,11 @@
   </url>
   <url>
     <loc>https://neboiwenofu.com/projects.html</loc>
-  
     <lastmod>2026-10-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://neboiwenofu.com/projects/premier-league-predictor.html</loc>
-  
-  
     <lastmod>2026-09-28</lastmod>
     <priority>0.6</priority>
   </url>
@@ -35,13 +32,29 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://neboiwenofu.com/writings/data-engineering-agent-era.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://neboiwenofu.com/writings/grounding-loop-organization.html</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://neboiwenofu.com/projects/grounding-loop.html</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://neboiwenofu.com/projects/grounding-loop-managing-drift.html</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://neboiwenofu.com/writings/on-property-taxes.html</loc>
     <lastmod>2026-10-04</lastmod>
     <priority>0.6</priority>
-
-    
-
-    
   </url>
   <url>
     <loc>https://neboiwenofu.com/writings/on-data.html</loc>
@@ -78,9 +91,4 @@
     <lastmod>2026-09-22</lastmod>
     <priority>0.6</priority>
   </url>
-
-<url>
-    <loc>https://neboiwenofu.com/writings/data-engineering-agent-era.html</loc>
-    <lastmod>2026-10-06</lastmod>
-    <priority>0.6</priority>
-  </url></urlset>
+</urlset>
