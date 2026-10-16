@@ -75,8 +75,7 @@
 
       <h2>Three layers: from foundation to verifiable behavior</h2>
       <p>The framework is a three-layer model. Each layer has a different
-      owner and a different failure mode, and the layers only work as a
-      system.</p>
+      failure mode, and the layers only work as a system.</p>
 
       <figure class="diagram">
         <svg viewBox="0 0 520 330" role="img" aria-label="The three layers: build the data foundation, encode the meaning, evaluate the behavior">
@@ -102,32 +101,29 @@
             <text x="44" y="300" font-size="11" fill="#333">Golden datasets, judges, and regression runs keep the layer honest.</text>
           </g>
         </svg>
-        <figcaption>Each layer has a different owner and a different failure
+        <figcaption>Each layer has a different failure
         mode; the layers only work as a system.</figcaption>
       </figure>
 
       <div class="table-scroll">
       <table class="mw-table">
         <thead>
-          <tr><th>Layer</th><th>What it is</th><th>Owner</th><th>Failure mode</th></tr>
+          <tr><th>Layer</th><th>What it is</th><th>Failure mode</th></tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>1 — Build the data foundation</strong></td>
             <td>Logging, architecture, pipelines, data quality, lineage — the artifacts that make enterprise data computable at all</td>
-            <td>Data engineering</td>
             <td>Everything downstream guesses</td>
           </tr>
           <tr>
             <td><strong>2 — Encode the meaning</strong></td>
             <td>The semantic layer: approved definitions, metric logic, grain rules, versioned as artifacts</td>
-            <td>The definition owner — analyst or data engineer</td>
             <td>Agents improvise meaning</td>
           </tr>
           <tr>
             <td><strong>3 — Evaluate the behavior</strong></td>
             <td>Golden datasets, judges, and regression runs</td>
-            <td>Data engineering and analytics</td>
             <td>Enrichment degrades unnoticed</td>
           </tr>
         </tbody>
