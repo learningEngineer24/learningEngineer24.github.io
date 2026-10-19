@@ -91,35 +91,111 @@
       </ol>
 
 
-<details class="mw-details" open>
+<details class="mw-details">
         <summary>
           <h2>Matchweek 7 <span class="mw-range">October 17–19, 2026</span></h2>
-          <span class="mw-score">preview</span>
+          <span class="mw-score">5/10 correct</span>
         </summary>
         <div class="mw-body">
-          <p>Ten games, Saturday through Monday. Same model as the last two weeks: v2 Dixon-Coles (shrinkage, 180-day time decay) blended 55/45 with the Elo challenger, trained on all 60 games through matchweek 6. No injury overlay this week; the absence model stays parked after two null validations, so these are pure form ratings.</p>
+          <p>Five out of ten again — but this time the Elo challenger takes the week on log loss.</p>
+
+          <div class="stat-grid">
+            <div class="stat"><span class="stat-num">5/10</span><span class="stat-label">model's correct picks</span></div>
+            <div class="stat"><span class="stat-num">0.874</span><span class="stat-label">model log loss <span class="muted-inline">(lower is better)</span></span></div>
+            <div class="stat"><span class="stat-num">5/10</span><span class="stat-label">Elo challenger: 5/10 · 0.854</span></div>
+            <div class="stat"><span class="stat-num">n/a</span><span class="stat-label">bookmakers <span class="muted-inline">(odds feed not yet updated)</span></span></div>
+          </div>
+
+          <p class="legend"><span class="lg lg-ok"></span> model got it right <span class="lg lg-miss"></span> model got it wrong <span class="draw-pill">Draw</span> the game was a draw</p>
 
           <div class="table-scroll">
           <table class="mw-table">
             <thead>
-              <tr><th scope="col">Game</th><th scope="col">Model's pick</th><th scope="col">H</th><th scope="col">D</th><th scope="col">A</th></tr>
+              <tr><th scope="col">Game</th><th scope="col">Predicted</th><th scope="col">Actual</th><th scope="col">Comments</th><th scope="col"></th></tr>
             </thead>
             <tbody>
-              <tr><td>Sat · Everton v Chelsea</td><td>Everton win · 41%</td><td>41%</td><td>28%</td><td>31%</td></tr>
-              <tr><td>Sat · Brentford v Liverpool</td><td>Brentford win · 44%</td><td>44%</td><td>27%</td><td>29%</td></tr>
-              <tr><td>Sat · Fulham v Hull</td><td>Hull win · 34%</td><td>34%</td><td>32%</td><td>34%</td></tr>
-              <tr><td>Sat · Man City v Ipswich</td><td>Man City win · 85%</td><td>85%</td><td>10%</td><td>5%</td></tr>
-              <tr><td>Sat · Newcastle v Aston Villa</td><td>Newcastle win · 42%</td><td>42%</td><td>27%</td><td>31%</td></tr>
-              <tr><td>Sun · Bournemouth v Sunderland</td><td>Bournemouth win · 52%</td><td>52%</td><td>26%</td><td>22%</td></tr>
-              <tr><td>Sun · Brighton v Crystal Palace</td><td>Brighton win · 63%</td><td>63%</td><td>22%</td><td>15%</td></tr>
-              <tr><td>Sun · Leeds v Man United</td><td>Leeds win · 38%</td><td>38%</td><td>29%</td><td>33%</td></tr>
-              <tr><td>Sun · Nott'm Forest v Arsenal</td><td>Arsenal win · 54%</td><td>19%</td><td>27%</td><td>54%</td></tr>
-              <tr><td>Mon · Tottenham v Coventry</td><td>Tottenham win · 40%</td><td>40%</td><td>30%</td><td>30%</td></tr>
+              <tr class="wrong">
+                <td class="game">Everton 0–2 Chelsea</td>
+                <td class="pred">Home win · 41%</td>
+                <td>Away win</td>
+                <td class="comments">The model liked Everton at home; Neto's brace punished it.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Brentford 1–2 Liverpool</td>
+                <td class="pred">Home win · 44%</td>
+                <td>Away win</td>
+                <td class="comments">Liverpool came from behind; the model overrated Brentford's home edge.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Fulham 1–0 Hull</td>
+                <td class="pred">Away win · 34%</td>
+                <td>Home win</td>
+                <td class="comments">The coin flip that flipped the wrong way — 34.0% against 34.5%.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Man City 3–2 Ipswich</td>
+                <td class="pred">Home win · 85%</td>
+                <td>Home win</td>
+                <td class="comments">The banker banked, though 3–2 was nervier than 85% implies.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Newcastle 0–1 Aston Villa</td>
+                <td class="pred">Home win · 42%</td>
+                <td>Away win</td>
+                <td class="comments">Villa's winner made it three Saturday away victories against the model's home picks.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Bournemouth 2–0 Sunderland</td>
+                <td class="pred">Home win · 52%</td>
+                <td>Home win</td>
+                <td class="comments">A comfortable mid-range home call.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Brighton 5–0 Crystal Palace</td>
+                <td class="pred">Home win · 63%</td>
+                <td>Home win</td>
+                <td class="comments">The week's most emphatic scoreline matched its second-strongest lean.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="wrong">
+                <td class="game">Leeds 1–1 Man United</td>
+                <td class="pred">Home win · 38%</td>
+                <td><span class="draw-pill">Draw</span></td>
+                <td class="comments">Derby ended level; the draw was the model's second choice at 29%.</td>
+                <td class="miss">✗</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Nott'm Forest 0–1 Arsenal</td>
+                <td class="pred">Away win · 54%</td>
+                <td>Away win</td>
+                <td class="comments">Arsenal ground it out; the road favorite delivered.</td>
+                <td class="ok">✓</td>
+              </tr>
+              <tr class="right">
+                <td class="game">Tottenham 3–1 Coventry</td>
+                <td class="pred">Home win · 40%</td>
+                <td>Home win</td>
+                <td class="comments">The coin flip that came in — Spurs' first win of the season.</td>
+                <td class="ok">✓</td>
+              </tr>
             </tbody>
           </table>
           </div>
 
-          <p>Three coin flips this week: Fulham v Hull is 34.0% to 34.5% (v2 says draw, Elo says Hull), and Leeds v Man United and Tottenham v Coventry are both within a few points. The only banker is City at 85%.</p>
+          <h3>What I take from this week</h3>
+          <ul>
+            <li><strong>5/10 again, but Elo takes the week.</strong> Same accuracy, better log loss (0.854 vs 0.874). Last week's first outright win over the challenger doesn't repeat; the gap between the two remains noise.</li>
+            <li><strong>Saturday belonged to the road teams.</strong> Chelsea, Liverpool, and Villa all won away where the model had the home side, and Arsenal made it four on Sunday. The model picked the home team in three of the four.</li>
+            <li><strong>Coin flips went 1-for-3.</strong> Only Tottenham came in. That is roughly what a 34–40% pick means, but calibration needs many more weeks to judge.</li>
+            <li><strong>The blend keeps earning its keep.</strong> The ensemble beats v2 alone on log loss again (0.874 vs 0.894), even in a week it loses to Elo.</li>
+            <li><strong>Season tally: 14/30.</strong> Thirty games say almost nothing; none of the gaps between the models are statistically meaningful yet.</li>
+          </ul>
         </div>
       </details>
 
