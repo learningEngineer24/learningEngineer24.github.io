@@ -91,133 +91,111 @@
       </ol>
 
 
-<details class="mw-details" open>
+<details class="mw-details">
         <summary>
           <h2>Matchweek 8 <span class="mw-range">October 23–25, 2026</span></h2>
-          <span class="mw-score">Preview</span>
+          <span class="mw-score">2/10 correct</span>
         </summary>
         <div class="mw-body">
-          <p>Seventy games in, the model is retrained on everything played this season — and it has ground to make up. Bookmakers took Matchweek 7 at 7/10 with a log loss of 0.748 against our 0.874, so the market is the pace-setter right now. This week's table puts our numbers next to the bookmakers' pre-match prices: we agree on seven of ten, and the three splits all have the same shape.</p>
+          <p>Two out of ten — the worst week of the season. The home lean we flagged in the preview got its trial, and the verdict is not kind.</p>
+
+          <div class="stat-grid">
+            <div class="stat"><span class="stat-num">2/10</span><span class="stat-label">model's correct picks</span></div>
+            <div class="stat"><span class="stat-num">1.190</span><span class="stat-label">model log loss <span class="muted-inline">(lower is better)</span></span></div>
+            <div class="stat"><span class="stat-num">2/10</span><span class="stat-label">Elo challenger: 2/10 · 1.214</span></div>
+            <div class="stat"><span class="stat-num">n/a</span><span class="stat-label">bookmakers <span class="muted-inline">(odds feed not yet updated)</span></span></div>
+          </div>
+
+          <p class="legend"><span class="lg lg-ok"></span> model got it right <span class="lg lg-miss"></span> model got it wrong <span class="draw-pill">Draw</span> the game was a draw</p>
 
           <div class="table-scroll">
           <table class="mw-table">
             <thead>
-              <tr><th scope="col">Game</th><th scope="col">Pick</th><th scope="col">Home</th><th scope="col">Draw</th><th scope="col">Away</th><th scope="col">Mkt H</th><th scope="col">Mkt D</th><th scope="col">Mkt A</th></tr>
+              <tr><th scope="col">Game</th><th scope="col">Predicted</th><th scope="col">Actual</th><th scope="col">Comments</th><th scope="col"></th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="game">Ipswich v Nott'm Forest</td>
+              <tr class="wrong">
+                <td class="game">Ipswich 1–1 Nott'm Forest</td>
                 <td class="pred">Away win · 40%</td>
-                <td>33%</td>
-                <td>28%</td>
-                <td>40%</td>
-                <td>31%</td>
-                <td>27%</td>
-                <td>41%</td>
+                <td>Draw</td>
+                <td class="comments">Williams put Forest ahead; Enciso's equalizer landed the outcome neither side of the blend wanted.</td>
+                <td class="miss">✗</td>
               </tr>
-              <tr>
-                <td class="game">Aston Villa v Man City</td>
+              <tr class="wrong">
+                <td class="game">Aston Villa 2–1 Man City</td>
                 <td class="pred">Away win · 52%</td>
-                <td>23%</td>
-                <td>25%</td>
-                <td>52%</td>
-                <td>20%</td>
-                <td>22%</td>
-                <td>58%</td>
+                <td>Home win</td>
+                <td class="comments">Jackson's brace ended City's perfect start. Villa Park was the priced trap, and it sprang.</td>
+                <td class="miss">✗</td>
               </tr>
-              <tr>
-                <td class="game">Arsenal v Everton</td>
+              <tr class="right">
+                <td class="game">Arsenal 2–0 Everton</td>
                 <td class="pred">Home win · 69%</td>
-                <td>69%</td>
-                <td>21%</td>
-                <td>10%</td>
-                <td>66%</td>
-                <td>21%</td>
-                <td>13%</td>
+                <td>Home win</td>
+                <td class="comments">The banker banked: two set-piece goals, Konsa and Gabriel.</td>
+                <td class="ok">✓</td>
               </tr>
-              <tr>
-                <td class="game">Coventry v Fulham</td>
+              <tr class="wrong">
+                <td class="game">Coventry 0–1 Fulham</td>
                 <td class="pred">Home win · 37%</td>
-                <td>37%</td>
-                <td>30%</td>
-                <td>33%</td>
-                <td>31%</td>
-                <td>27%</td>
-                <td>42%</td>
+                <td>Away win</td>
+                <td class="comments">Market split one goes to the market — Bobb's late winner settled it for Fulham.</td>
+                <td class="miss">✗</td>
               </tr>
-              <tr>
-                <td class="game">Chelsea v Tottenham</td>
+              <tr class="wrong">
+                <td class="game">Chelsea 0–2 Tottenham</td>
                 <td class="pred">Home win · 61%</td>
-                <td>61%</td>
-                <td>22%</td>
-                <td>17%</td>
-                <td>56%</td>
-                <td>23%</td>
-                <td>22%</td>
+                <td>Away win</td>
+                <td class="comments">The expensive one: Penders' own goal, Palmer sent off, Tel's late sealer. Sixty-one percent, gone.</td>
+                <td class="miss">✗</td>
               </tr>
-              <tr>
-                <td class="game">Crystal Palace v Newcastle</td>
+              <tr class="wrong">
+                <td class="game">Crystal Palace 0–2 Newcastle</td>
                 <td class="pred">Home win · 40%</td>
-                <td>40%</td>
-                <td>27%</td>
-                <td>33%</td>
-                <td>33%</td>
-                <td>26%</td>
-                <td>41%</td>
+                <td>Away win</td>
+                <td class="comments">Market split two — Osula and Barnes made it a comfortable away win.</td>
+                <td class="miss">✗</td>
               </tr>
-              <tr>
-                <td class="game">Hull v Brentford</td>
+              <tr class="wrong">
+                <td class="game">Hull 1–1 Brentford</td>
                 <td class="pred">Home win · 37%</td>
-                <td>37%</td>
-                <td>30%</td>
-                <td>33%</td>
-                <td>20%</td>
-                <td>24%</td>
-                <td>56%</td>
+                <td>Draw</td>
+                <td class="comments">Market split three lands on neither: McBurnie's penalty, Ouattara's equalizer. Brentford's 56% didn't cash either.</td>
+                <td class="miss">✗</td>
               </tr>
-              <tr>
-                <td class="game">Liverpool v Brighton</td>
+              <tr class="right">
+                <td class="game">Liverpool 2–0 Brighton</td>
                 <td class="pred">Home win · 40%</td>
-                <td>40%</td>
-                <td>27%</td>
-                <td>33%</td>
-                <td>45%</td>
-                <td>25%</td>
-                <td>30%</td>
+                <td>Home win</td>
+                <td class="comments">The form side got nothing at Anfield — Wirtz and Isak settled it.</td>
+                <td class="ok">✓</td>
               </tr>
-              <tr>
-                <td class="game">Man United v Bournemouth</td>
+              <tr class="wrong">
+                <td class="game">Man United 0–3 Bournemouth</td>
                 <td class="pred">Home win · 51%</td>
-                <td>51%</td>
-                <td>25%</td>
-                <td>24%</td>
-                <td>45%</td>
-                <td>26%</td>
-                <td>29%</td>
+                <td>Away win</td>
+                <td class="comments">Three-nil at Old Trafford: Rayan, Tavernier, Evanilson. With Chelsea, the weekend's worst read.</td>
+                <td class="miss">✗</td>
               </tr>
-              <tr>
-                <td class="game">Sunderland v Leeds</td>
+              <tr class="wrong">
+                <td class="game">Sunderland 0–0 Leeds</td>
                 <td class="pred">Away win · 37%</td>
-                <td>33%</td>
-                <td>30%</td>
-                <td>37%</td>
-                <td>31%</td>
-                <td>29%</td>
-                <td>40%</td>
+                <td>Draw</td>
+                <td class="comments">Goalless at the bottom. The draw was the model's second choice at 30% — second choice pays nothing.</td>
+                <td class="miss">✗</td>
               </tr>
             </tbody>
           </table>
           </div>
 
-          <p class="legend">Bookmaker columns: average pre-match odds across books from football-data.co.uk's fixtures feed, captured Friday morning, converted to probabilities with the overround removed. The review scores the market on closing lines, as usual.</p>
-
-          <p>Arsenal at home to Everton is the banker at 69%, and the market agrees (66%). The headline games lean the same way for both of us: Chelsea in the derby (61% to the market's 56%) and City at Villa Park (52% to 58%).</p>
-
-          <p>The splits are where it gets interesting. Three times, the model backs a home side the bookmakers won't: Coventry (the market prefers Fulham, 42%), Crystal Palace (Newcastle, 41%), and widest of all Hull — Brentford are 56% with the books while our ensemble leans Hull at home. Elo, to its credit, sides with the market on that one. The model has been more home-friendly than the market all season; this weekend puts that tendency on trial.</p>
-
-          <p>Tonight's opener is its own puzzle: the ensemble lands on Forest away at 40%, but the Dixon-Coles half of the model actually prefers Ipswich at home — the blend is doing real work there. The market, narrowly, agrees with the blend.</p>
-
-          <p>As ever, no injury or lineup overlay: the absence model stayed a validated null in testing and remains parked.</p>
+          <h3>What I take from this week</h3>
+          <ul>
+            <li><strong>The worst week of the season.</strong> Two of ten, a 1.190 log loss, and Elo level on accuracy (2/10, 1.214). Favorites had a bad weekend everywhere — the market managed only 4/10 on Friday's pre-match prices — but we had it worse.</li>
+            <li><strong>The home-lean question is now the main question.</strong> The model picked the home team in seven games; home teams won three. All three model-versus-market splits were home picks against the market's away lean, and the market went two-for-three with a draw in the third. Whether the model's home advantage is simply too strong is top of the list for a rethink this week.</li>
+            <li><strong>Confidence did the damage.</strong> Chelsea at 61% and United at 51% both lost heavily at home. Log loss punishes exactly that: after the banker, the week's two biggest leans both went the other way.</li>
+            <li><strong>Draw watch rolls on.</strong> Three draws, none picked. Nine of the season's forty games have now drawn; the model has made a draw its top pick exactly once.</li>
+            <li><strong>Season tally: 16/40.</strong> Forty games still say little about accuracy. The clearer signal so far is structural: a persistent gap between our home prices and the market's.</li>
+          </ul>
         </div>
       </details>
 
