@@ -91,6 +91,106 @@
       </ol>
 
 
+<details class="mw-details" open>
+        <summary>
+          <h2>Matchweek 9 <span class="mw-range">October 31–November 2, 2026</span></h2>
+          <span class="mw-score">Preview</span>
+        </summary>
+        <div class="mw-body">
+          <p>After the worst week of the season (2/10 in Matchweek 8, season tally 16/40), the model gets one deliberate change. Matchweek 8 put the model's home lean on trial, so I reworked exactly that: the Dixon-Coles half of the blend now fits with a stronger prior pulling the home-advantage term toward zero. The change was chosen on the 2024–25 tuning window, not on this season — there it improved log loss from 0.9946 to 0.9910, the only home-shrink variant whose confidence interval excluded zero. In practice it trims about a point off every home price this week and flips no picks. The blend (55% Dixon-Coles, 45% Elo) is otherwise unchanged, and Elo's home prices were already close to the market's, so it was left alone.</p>
+
+          <div class="table-scroll">
+          <table class="mw-table">
+            <thead>
+              <tr><th scope="col">Game</th><th scope="col">Pick</th><th scope="col">Home</th><th scope="col">Draw</th><th scope="col">Away</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="game">Chelsea v Man United</td>
+                <td class="pred">Home win · 42%</td>
+                <td>42%</td>
+                <td>26%</td>
+                <td>32%</td>
+              </tr>
+              <tr>
+                <td class="game">Bournemouth v Leeds</td>
+                <td class="pred">Home win · 46%</td>
+                <td>46%</td>
+                <td>28%</td>
+                <td>26%</td>
+              </tr>
+              <tr>
+                <td class="game">Brentford v Nott'm Forest</td>
+                <td class="pred">Home win · 51%</td>
+                <td>51%</td>
+                <td>27%</td>
+                <td>22%</td>
+              </tr>
+              <tr>
+                <td class="game">Coventry v Sunderland</td>
+                <td class="pred">Home win · 35%</td>
+                <td>35%</td>
+                <td>31%</td>
+                <td>34%</td>
+              </tr>
+              <tr>
+                <td class="game">Hull v Ipswich</td>
+                <td class="pred">Home win · 55%</td>
+                <td>55%</td>
+                <td>26%</td>
+                <td>19%</td>
+              </tr>
+              <tr>
+                <td class="game">Man City v Brighton</td>
+                <td class="pred">Home win · 57%</td>
+                <td>57%</td>
+                <td>24%</td>
+                <td>20%</td>
+              </tr>
+              <tr>
+                <td class="game">Tottenham v Crystal Palace</td>
+                <td class="pred">Home win · 48%</td>
+                <td>48%</td>
+                <td>27%</td>
+                <td>25%</td>
+              </tr>
+              <tr>
+                <td class="game">Aston Villa v Fulham</td>
+                <td class="pred">Home win · 52%</td>
+                <td>52%</td>
+                <td>27%</td>
+                <td>21%</td>
+              </tr>
+              <tr>
+                <td class="game">Liverpool v Arsenal</td>
+                <td class="pred">Away win · 44%</td>
+                <td>27%</td>
+                <td>29%</td>
+                <td>44%</td>
+              </tr>
+              <tr>
+                <td class="game">Newcastle v Everton</td>
+                <td class="pred">Home win · 45%</td>
+                <td>45%</td>
+                <td>28%</td>
+                <td>27%</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+
+          <p class="legend">Bookmaker comparison: the pre-match odds feed had not posted this week's prices when this preview was published, so the market columns will be added here when they land. The review will score the market on closing lines, as usual.</p>
+
+          <p>The headline is Sunday at Anfield: Arsenal away is the week's only non-home pick, at 44%, and both halves of the model agree on it. Saturday opens with Chelsea against Manchester United at Stamford Bridge, where the model backs Chelsea at 42% without much conviction.</p>
+
+          <p>The week's purest coin flip is Coventry v Sunderland: 35% home, 31% draw, 34% away. The Dixon-Coles half actually makes the draw its top outcome there; the blend edges home by less than a point. Man City at home to Brighton is the strongest lean of the week, and at 57% it is a modest one by recent standards.</p>
+
+          <p>And the honest caveat about the change above: it trims prices, it does not change behavior. The model still picks nine home winners this week. If home teams struggle again, the question comes back, louder.</p>
+
+          <p>As ever, no injury or lineup overlay: the absence model stayed a validated null in testing and remains parked.</p>
+        </div>
+      </details>
+
 <details class="mw-details">
         <summary>
           <h2>Matchweek 8 <span class="mw-range">October 23–25, 2026</span></h2>
